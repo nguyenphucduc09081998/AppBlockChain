@@ -25,10 +25,19 @@ export default class RegisterScreen extends Component {
                         secureTextEntry={true} underlineColorAndroid={'transparent'} />    
                     </View>
                     
-                    <TouchableOpacity style={styles.button}>
+                    {/* <TouchableOpacity style={styles.button}>
                         <Text style={styles.btntext}>Sign Up</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        // onPress={() => Alert.alert('Cannot press this one')}
+                        >
+                        <Text 
+                            style={{color: '#fff',fontFamily: 'serif', fontSize: 14, fontWeight: '700'}}>
+                                Đăng ký
+                        </Text>
+                      
                     </TouchableOpacity>
-
                 </View>    
             </View>
         );
@@ -82,11 +91,14 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#59cbbd',
-        marginTop: 30,
-        marginHorizontal: 10,
-        borderRadius: 30,
+        backgroundColor: '#0382F8',
+        marginTop: 10,
+        padding: 5,
+        width: '100%',
+        width: 150,
+        height: 30,
+        left: 23,
+        borderRadius: 14
 
         
     },
