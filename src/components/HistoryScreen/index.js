@@ -51,14 +51,18 @@ export default class HistoryScreen extends Component {
 
     render() {
         return (
-           
-            <View style={styles.HistoryComponent} >
-                <FlatList
-                    data={DATA}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => index}
-                    //ItemSeparatorComponent={this.renderSeparator}
-                />
+            <View style={styles.HistoryComponent}>
+                <View style={styles.title}>
+                    <Text style={styles.titleHeader}>LỊCH SỬ GIAO DỊCH</Text>
+                </View>
+                <View style={styles.listContainer}>
+                    <FlatList
+                        data={DATA}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => index}
+                        //ItemSeparatorComponent={this.renderSeparator}
+                    />
+                </View>
             </View>
         );
     }
@@ -67,9 +71,33 @@ export default class HistoryScreen extends Component {
 const styles = StyleSheet.create({
     HistoryComponent: {
         flex: 1,
-        backgroundColor: '#fff4fa',
+        flexDirection: 'column',
+        backgroundColor: '#fbfbfd',
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        // backgroundColor: '#fff4fa',
         // alignItems: 'center',
         // justifyContent: 'center'
+    },
+    title: {
+        marginBottom: 30,
+    },
+    titleHeader: {
+        fontFamily: 'Lora',
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginBottom: 4,
+        color: '#0091ae'
+    },
+    listContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.41,
+        shadowRadius: 9.11,
+        elevation: 14,
     },
     amount: {
         color: 'green',
@@ -85,11 +113,7 @@ const styles = StyleSheet.create({
     viewitem: {
         flex: 1,
         // marginLeft: 15,
-        margin: 10,
-        borderRadius: 10,
-        margin: 10, 
        // borderColor: 'rgb(176,224,230, 0.6)', 
-        borderWidth: 1,
     },
     separator: {
         height: 1,

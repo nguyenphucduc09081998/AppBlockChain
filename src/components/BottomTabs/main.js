@@ -19,71 +19,126 @@ import HomeScreen from '../HomeScreen/index';
 import RoomDetails from '../RoomDetails/index';
 import FilterRoom from '../FilterRoom/filtering';
 // import Profile from '../Profile/index';
-import Payment from '../Payment/index';
-import RegisterScreen from '../RegisterScreen/index';
- import TransactionScreen from '../TransactionScreen/index';
-import HistoryScreen from '../HistoryScreen/index';
-import DetailHistoryScreen from '../DetailHistoryScreen/index';
+import Payment from '../Payment';
+import RegisterScreen from '../RegisterScreen';
+import TransactionScreen from '../TransactionScreen';
+import HistoryScreen from '../HistoryScreen';
+import DetailHistoryScreen from '../DetailHistoryScreen';
 
 import { createAppContainer  } from 'react-navigation';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Table, Rows } from 'react-native-table-component';
 
-const TabNavigator  = createMaterialBottomTabNavigator  (
-  {
-    'Giao Dịch': { 
-      screen: () => <TransactionScreen/>, 
-      navigationOptions: {
-        tabBarLabel: 'Giao Dịch',
-        tabBarIcon: ({focused, tintColor:color}) => (
-          <Image source={require('../../../img/transaction.png')}
-                    style={{width: 22, height: 22}} />
-        ),
-      },
-    },
-    'Lịch Sử': { 
-      screen: () => <HistoryScreen/>, 
-      navigationOptions: {
-        tabBarLabel: 'Lịch Sử',
-        tabBarIcon: ({focused, tintColor:color}) => (
-          <Image source={require('../../../img/booking.png')}
-                    style={{width: 22, height: 22}} />
-        ),
-      },
-    },
-    'Đăng Kí': { 
-      screen: () => <RegisterScreen/>, 
-      navigationOptions: {
-        tabBarLabel: 'Đăng Kí',
-        tabBarIcon: ({focused, tintColor:color}) => (
-          <Image source={require('../../../img/register.png')}
-                    style={{width: 22, height: 22}} />
-        ),
-      },
-    },
-  },
-  // {
-  //   shifting: true,
-  //   activeColor: '#3e2465',
-  //   inactiveColor: 'gray',
-  //   barStyle: { backgroundColor: '#fff', shadowColor: '#000',
-  //   shadowOffset: { width: 1, height: 1 },
-  //   shadowOpacity: 0.8,
-  //   shadowRadius: 2,  
-  //   elevation: 5,
-  //   paddingLeft: 20,
-  //   width: '160%',
+// const TabNavigator = createMaterialBottomTabNavigator(
+//   {
+//     'Giao Dịch': { 
+//       screen: () => <TransactionScreen />, 
+//       navigationOptions: {
+//         tabBarLabel: 'Giao Dịch',
+//         tabBarIcon: ({focused, tintColor:color}) => (
+//           <Image source={require('../../../img/transaction.png')}
+//                     style={{width: 22, height: 22}} />
+//         ),
+//       },
+//     },
+//     'Lịch Sử': { 
+//       screen: () => <HistoryScreen />, 
+//       navigationOptions: {
+//         tabBarLabel: 'Lịch Sử',
+//         tabBarIcon: ({focused, tintColor:color}) => (
+//           <Image source={require('../../../img/booking.png')}
+//                     style={{width: 22, height: 22}} />
+//         ),
+//       },
+//     },
+//     'Đăng Kí': { 
+//       screen: () => <RegisterScreen />, 
+//       navigationOptions: {
+//         tabBarLabel: 'Đăng Kí',
+//         tabBarIcon: ({focused, tintColor:color}) => (
+//           <Image source={require('../../../img/register.png')}
+//                     style={{width: 22, height: 22}} />
+//         ),
+//       },
+//     },
+//   },
+//   // {
+//   //   shifting: true,
+//   //   activeColor: '#3e2465',
+//   //   inactiveColor: 'gray',
+//   //   barStyle: { backgroundColor: '#fff', shadowColor: '#000',
+//   //   shadowOffset: { width: 1, height: 1 },
+//   //   shadowOpacity: 0.8,
+//   //   shadowRadius: 2,  
+//   //   elevation: 5,
+//   //   paddingLeft: 20,
+//   //   width: '160%',
 
-  //   },  
-  //   // inactiveTintColor: '#f0edf6',
-  //   // activeTintColor: '#3e2465',
-  // },
+//   //   },  
+//   //   // inactiveTintColor: '#f0edf6',
+//   //   // activeTintColor: '#3e2465',
+//   // },
   
+// );
+
+// const BottomTabs = createAppContainer(TabNavigator);
+
+const Tab = createMaterialBottomTabNavigator();
+
+const BottomTabs_New = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Transactions"
+      activeColor="#fff"
+      labelStyle={{ fontSize: 12 }}
+      barStyle={{ backgroundColor: '#0091ae' }}
+      style={{ backgroundColor: '#0091ae' }}
+    >
+      <Tab.Screen
+        name="Transactions"
+        component={TransactionScreen}
+        options={{
+          tabBarLabel: 'Giao Dịch',
+          tabBarIcon: ({ color }) => (
+            <Image source={require('../../../img/transaction.png')}
+                        style={{width: 22, height: 22}} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{
+          tabBarLabel: 'Lịch Sử',
+          tabBarIcon: ({ color }) => (
+            <Image source={require('../../../img/booking.png')}
+                    style={{width: 22, height: 22}} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Registration"
+        component={RegisterScreen}
+        options={{
+          tabBarLabel: 'Đăng Ký',
+          tabBarIcon: ({ color }) => (
+            <Image source={require('../../../img/register.png')}
+                                style={{width: 22, height: 22}} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const WrappedBottomTabs = () => (
+  <NavigationContainer>
+    <BottomTabs_New />
+  </NavigationContainer>
 );
 
-const BottomTabs = createAppContainer(TabNavigator );
-
-export default BottomTabs;
+export default WrappedBottomTabs;
 
 const styles = StyleSheet.create({
   imgSuggest: {
@@ -113,7 +168,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#696666',
     marginTop: 10
-
   },
   moreService: {
     fontSize: 7,

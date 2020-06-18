@@ -30,12 +30,11 @@ class TransactionScreen extends React.Component {
 
     render(){
         return (
-            <ScrollView>
-                <View style={[styles.container]}>
-                  
+            <ScrollView contentContainerStyle={[styles.container]}>
+                <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View style={styles.input_profile}>
                         <View style={styles.title_profile}>
-                            <Text style={styles.title}>Thông tin giao dịch</Text>
+                            <Text style={styles.title}>THÔNG TIN GIAO DỊCH</Text>
                             <Text style={styles.sub_title}>Thông tin chi tiết người nhận</Text>
                         </View>
                         <View style={styles.form_input}>
@@ -44,15 +43,15 @@ class TransactionScreen extends React.Component {
                                 <TextInput style={[styles.Input]}/>
                             </View>
                             <View style={styles.form_group}>
-                                <Text>Public key người nhận</Text>
+                                <Text style={styles.left}>Public key người nhận</Text>
                                 <TextInput style={styles.Input}/>
                             </View>
                             <View style={styles.form_group}>
-                                <Text>Số Tiền</Text>
+                                <Text style={styles.left}>Số Tiền</Text>
                                 <TextInput style={styles.Input}/>
                             </View>                            
                             <View style={styles.form_group}>
-                                <Text>Nội dung</Text>
+                                <Text style={styles.left}>Nội dung</Text>
                                 <TextInput style={styles.Input}/>
                             </View>
                         </View>
@@ -63,7 +62,7 @@ class TransactionScreen extends React.Component {
                         // onPress={() => Alert.alert('Cannot press this one')}
                         >
                         <Text 
-                            style={{color: '#fff',fontFamily: 'serif', fontSize: 14, fontWeight: '700'}}>
+                            style={{color: '#fff', fontSize: 14, fontWeight: '700'}}>
                                 Chuyển khoản
                         </Text>
                       
@@ -76,56 +75,52 @@ class TransactionScreen extends React.Component {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-around',
-        paddingHorizontal: 20,
-        paddingBottom: 10,
+        paddingHorizontal: 24,
+        paddingTop: 24,
         width: '100%',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        backgroundColor: '#fbfbfd',
     },
-   
-    
     title_profile: {
-        marginTop: 15,
-        borderBottomColor: '#CCC9C9',
-        borderBottomWidth: 1,
-        paddingBottom: 10,  
-        marginBottom: 20,
+        marginBottom: 30,
     },
     title: {
         fontFamily: 'Lora',
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: 'bold',
+        marginBottom: 4,
+        color: '#0091ae'
     },
     sub_title: {
         color: '#797474',
-        fontSize: 11
+        fontSize: 12
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#0382F8',
+        backgroundColor: '#ff7a59',
+        paddingVertical: 24,
         marginTop: 10,
-        padding: 5,
-        width: '100%',
-        width: 150,
+        borderRadius: 24,
         height: 30,
-        left: 23,
-        borderRadius: 14,
-        
+        fontSize: 16
+        // flex: 1
     },
     Input: {
-        borderColor: '#CCC9C9',
-        borderWidth: 0.5,
-        borderRadius: 10,
+        borderRadius: 6,
         width: '100%', 
-        
+        backgroundColor: '#f1f2f5',
+        marginBottom: 12,
     },
     form_group: {
         flexWrap: 'wrap',
         flexDirection: 'row',
     },
     left: {
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        color: '#46596b',
+        fontSize: 12,
+        marginBottom: 6,
     },
     right: {
         flexDirection: 'row-reverse',
