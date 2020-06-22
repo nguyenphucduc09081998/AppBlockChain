@@ -17,6 +17,10 @@ import {
 import DatePicker from 'react-native-datepicker';
 
 import {withNavigation} from 'react-navigation';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class TransactionScreen extends React.Component {
   constructor(props) {
@@ -87,7 +91,7 @@ var styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Rubik-Medium',
-    fontSize: 24,
+    fontSize: wp('6%'),
     marginBottom: 4,
     color: '#0091ae',
     letterSpacing: 1.15,
@@ -95,23 +99,21 @@ var styles = StyleSheet.create({
   sub_title: {
     fontFamily: 'Rubik-Regular',
     color: '#8da1b4',
-    fontSize: 16,
+    fontSize: wp('3.75%'),
   },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ff7a59',
-    paddingVertical: 28,
-    marginTop: 10,
+    paddingVertical: hp('3%'),
     borderRadius: 28,
     height: 30,
-    fontSize: 20,
     fontFamily: 'Rubik',
     // flex: 1
   },
   btnText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: wp('4%'),
     fontFamily: 'Rubik-Medium',
   },
   Input: {
@@ -119,13 +121,13 @@ var styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#f1f2f5',
     marginBottom: 16,
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    fontSize: 20,
+    paddingVertical: wp('2.25%'),
+    paddingHorizontal: wp('2%'),
+    fontSize: wp('4%'),
     fontFamily: 'Inconsolata-Regular',
   },
   form_input: {
-    marginBottom: 14,
+    marginBottom: hp('1.25%'),
   },
   form_group: {
     flexWrap: 'wrap',
@@ -134,7 +136,7 @@ var styles = StyleSheet.create({
   left: {
     justifyContent: 'flex-end',
     color: '#46596b',
-    fontSize: 14,
+    fontSize: wp('3.5%'),
     marginBottom: 8,
   },
   right: {

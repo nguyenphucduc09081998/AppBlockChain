@@ -19,6 +19,8 @@ import FilterRoom from '../FilterRoom/filtering';
 // import Profile from '../Profile/index';
 import Payment from '../Payment';
 import RegisterScreen from '../RegisterScreen';
+import LoginScreen from '../LoginScreen';
+import RegisterUserScreen from '../RegisterUserScreen';
 import TransactionScreen from '../TransactionScreen';
 import HistoryScreen from '../HistoryScreen';
 import DetailHistoryScreen from '../DetailHistoryScreen';
@@ -27,6 +29,11 @@ import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {Table, Rows} from 'react-native-table-component';
+import Icon from 'react-native-vector-icons/Fontisto';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 // const TabNavigator = createMaterialBottomTabNavigator(
 //   {
@@ -88,20 +95,18 @@ const BottomTabs_New = () => {
   return (
     <Tab.Navigator
       initialRouteName="Transactions"
-      activeColor="#fff"
+      activeColor="#0091ae"
+      inactiveColor="#000"
+      // activeColor="#fff"
       labelStyle={{fontSize: 12}}
-      barStyle={{backgroundColor: '#0091ae'}}
-      style={{backgroundColor: '#0091ae'}}>
+      barStyle={{backgroundColor: '#fbfbfd'}}>
       <Tab.Screen
         name="Transactions"
         component={TransactionScreen}
         options={{
           tabBarLabel: 'Giao Dịch',
           tabBarIcon: ({color}) => (
-            <Image
-              source={require('../../../img/transaction.png')}
-              style={{width: 22, height: 22}}
-            />
+            <Icon name="dollar" color={color} size={wp('4%')} />
           ),
         }}
       />
@@ -111,10 +116,7 @@ const BottomTabs_New = () => {
         options={{
           tabBarLabel: 'Lịch Sử',
           tabBarIcon: ({color}) => (
-            <Image
-              source={require('../../../img/booking.png')}
-              style={{width: 22, height: 22}}
-            />
+            <Icon name="history" color={color} size={wp('4%')} />
           ),
         }}
       />
@@ -124,10 +126,27 @@ const BottomTabs_New = () => {
         options={{
           tabBarLabel: 'Đăng Ký',
           tabBarIcon: ({color}) => (
-            <Image
-              source={require('../../../img/register.png')}
-              style={{width: 22, height: 22}}
-            />
+            <Icon name="qrcode" color={color} size={wp('4%')} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          tabBarLabel: 'Đăng Nhap',
+          tabBarIcon: ({color}) => (
+            <Icon name="key" color={color} size={wp('4%')} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Signup"
+        component={RegisterUserScreen}
+        options={{
+          tabBarLabel: 'Đăng Ký',
+          tabBarIcon: ({color}) => (
+            <Icon name="key" color={color} size={wp('4%')} />
           ),
         }}
       />

@@ -16,27 +16,37 @@ export default class RegisterScreen extends Component {
     return (
       <View style={styles.screenContainer}>
         <View style={styles.intro}>
-          <View style={styles.title_profile}>
-            <Text style={styles.title}>DANG KY BLOCKCHAIN</Text>
-            <Text style={styles.sub_title}>Subtite de o day!</Text>
+          <View style={styles.logo}>
+            <View style={styles.logoBlock}>
+              <Text>
+                <Text style={styles.logoBlockTxt}>BLOCKR</Text>{' '}
+                <Text style={styles.logoDotTxt}>.</Text>
+              </Text>
+            </View>
+            {/* <View style={styles.logoChain}>
+                <Text style={styles.logoChainTxt}>CHAIN</Text>
+              </View> */}
           </View>
         </View>
         <View style={styles.Register}>
+          <Text style={styles.header}>Welcome.</Text>
+          <Text style={styles.subHeader}>Signup to continue.</Text>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Private Key'} style={styles.Input} />
+              <TextInput placeholder={'Name'} style={styles.Input} />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Public Key'} style={styles.Input} />
+              <TextInput placeholder={'Email'} style={styles.Input} />
+            </View>
+
+            <View style={styles.form_group}>
+              <TextInput placeholder={'Password'} style={styles.Input} />
             </View>
 
             <View style={styles.form_group}>
               <TextInput
-                placeholder={'Message'}
-                multiline={true}
-                numberOfLines={4}
-                textAlignVertical="top"
+                placeholder={'Confirm Password'}
                 style={styles.Input}
               />
             </View>
@@ -49,7 +59,7 @@ export default class RegisterScreen extends Component {
             style={styles.button}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
-            <Text style={styles.btnText}>Đăng ký Blockchain</Text>
+            <Text style={styles.btnText}>Signup</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -63,34 +73,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fbfbfd',
-    paddingHorizontal: 28,
-    paddingTop: 24,
+    paddingHorizontal: wp('8%'),
+    paddingTop: 40,
   },
   intro: {
+    height: hp('25%'),
     display: 'flex',
     justifyContent: 'flex-start',
     // backgroundColor: 'pink',
-  },
-  title_profile: {
-    marginBottom: 38,
-  },
-  title: {
-    fontFamily: 'Rubik-Medium',
-    fontSize: wp('6%'),
-    marginBottom: 4,
-    color: '#0091ae',
-    letterSpacing: 1.15,
-  },
-  sub_title: {
-    fontFamily: 'Rubik-Regular',
-    color: '#8da1b4',
-    fontSize: wp('3.75%'),
   },
   logo: {
     display: 'flex',
     // flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    paddingHorizontal: 18,
     // backgroundColor: 'grey',
   },
   logoBlock: {
@@ -128,8 +125,13 @@ const styles = StyleSheet.create({
     fontSize: wp('5.5%'),
     fontFamily: 'Rubik-Medium',
     color: '#000',
-    marginBottom: wp('5.25%'),
     // textAlign: 'center',
+  },
+  subHeader: {
+    fontFamily: 'Rubik-Regular',
+    color: '#8da1b4',
+    fontSize: wp('3.75%'),
+    marginBottom: wp('5.25%'),
   },
   inputContainer: {},
   textinput: {

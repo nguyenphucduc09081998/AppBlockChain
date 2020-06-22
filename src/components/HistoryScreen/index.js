@@ -9,6 +9,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export default class HistoryScreen extends Component {
   constructor() {
@@ -25,7 +29,7 @@ export default class HistoryScreen extends Component {
         <TouchableOpacity>
           <View style={styles.filterBtn}>
             <Text style={styles.filterText}>Filter</Text>
-            <Icon name="caretdown" size={14} color="#0091ae" />
+            <Icon name="caretdown" size={wp('2%')} color="#0091ae" />
           </View>
         </TouchableOpacity>
       </View>
@@ -40,7 +44,7 @@ export default class HistoryScreen extends Component {
           <View>
             <Icon
               name="arrowleft"
-              size={30}
+              size={wp('4.5%')}
               color="#fff"
               style={styles.itemIconContainer}
             />
@@ -113,34 +117,25 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Rubik-Medium',
-    fontSize: 24,
+    fontSize: wp('6%'),
     marginBottom: 4,
     color: '#0091ae',
     letterSpacing: 1.15,
   },
-  listContainer: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.41,
-    shadowRadius: 9.11,
-    elevation: 14,
-  },
+
   amount: {
     color: 'green',
     fontFamily: 'Inconsolata-Bold',
-    fontSize: 18,
+    fontSize: wp('4%'),
   },
   public_key: {
     fontFamily: 'Inconsolata-Regular',
     color: '#999999',
-    fontSize: 14,
+    fontSize: wp('3%'),
   },
   message: {
     fontFamily: 'Rubik-Medium',
-    fontSize: 18,
+    fontSize: wp('4%'),
   },
   viewitem: {
     flex: 1,
@@ -155,7 +150,7 @@ const styles = StyleSheet.create({
   itemIconContainer: {
     backgroundColor: 'grey',
     borderRadius: 19,
-    padding: 18,
+    padding: wp('4.25%'),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -184,6 +179,7 @@ const styles = StyleSheet.create({
   time: {
     color: '#748da4',
     fontFamily: 'Rubik-Regular',
+    fontSize: wp('2.8%'),
   },
   priceContainer: {},
   separator: {
@@ -204,14 +200,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#ebfcff',
-    borderRadius: 30,
-    paddingVertical: 8,
-    paddingHorizontal: 18,
+    borderRadius: wp('4%'),
+    paddingVertical: wp('2%'),
+    paddingHorizontal: wp('4%'),
   },
   filterText: {
     fontFamily: 'Rubik-Medium',
-    fontSize: 16,
-    marginRight: 16,
+    fontSize: wp('3.5%'),
+    marginRight: wp('3.25%'),
     color: '#0091ae',
   },
 });
