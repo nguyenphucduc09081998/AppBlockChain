@@ -12,6 +12,43 @@ import {
 } from 'react-native-responsive-screen';
 
 export default class RegisterScreen extends Component {
+
+  constructor(props){
+    super(props);
+    this.state ={
+      name: "",
+      email: "",
+      password: "",
+      comfirm_password: ""
+    }
+  }
+
+  clickregister=()=>{
+    fetch("http://192.168.1.7:8000/api/auth/register",{
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          "name": this.state.name,
+          "email": this.state.email,
+          "password": this.state.password,
+          "comfirm_password": this.state.comfirm_password,
+          })
+       })
+      .then(  (response) => response.json())
+      .then(  (responseJson) => {    
+        ///Alert.alert('Đăng Ký thành công')
+        console.log("responseJsonRegister:", responseJson)
+          //  this.state.email = "";
+          //  this.state.password = ""
+      } )
+      .catch((error)=>
+         Alert.alert('Đăng Kí Thất Bại tại catch')
+      );
+  }
+
   render() {
     return (
       <View style={styles.screenContainer}>
@@ -33,21 +70,31 @@ export default class RegisterScreen extends Component {
           <Text style={styles.subHeader}>Signup to continue.</Text>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Name'} style={styles.Input} />
+              <TextInput placeholder={'Name'} style={styles.Input} 
+                  onChangeText={(name) => this.setState({name})}
+                  value={this.state.name}  
+              />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Email'} style={styles.Input} />
+              <TextInput placeholder={'Email'} style={styles.Input} 
+                  onChangeText={(email) => this.setState({email})}    
+                  value={this.state.email}  
+              />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Password'} style={styles.Input} />
+              <TextInput placeholder={'Password'} style={styles.Input} secureTextEntry
+                  onChangeText={(password) => this.setState({password})}
+                  value={this.state.password}
+              />
             </View>
 
             <View style={styles.form_group}>
               <TextInput
-                placeholder={'Confirm Password'}
-                style={styles.Input}
+                placeholder={'Confirm Password'} style={styles.Input} secureTextEntry
+                onChangeText={(confirm_password) => this.setState({confirm_password})}
+                value={this.state.confirm_password}
               />
             </View>
           </View>
@@ -56,7 +103,7 @@ export default class RegisterScreen extends Component {
                         <Text style={styles.btntext}>Sign Up</Text>
                     </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.button}
+            style={styles.button} onPress={this.clickregister.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Signup</Text>
@@ -77,7 +124,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   intro: {
-    height: hp('25%'),
+    height: hp('18%'),
     display: 'flex',
     justifyContent: 'flex-start',
     // backgroundColor: 'pink',
@@ -94,7 +141,7 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // backgroundColor: 'red',
     width: 90,
-    height: 100,
+    height: 50,
   },
   logoBlockTxt: {
     fontFamily: 'Rubik-Medium',

@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
+  TextInput,Alert,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -12,6 +12,40 @@ import {
 } from 'react-native-responsive-screen';
 
 export default class RegisterScreen extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state={
+      email:"",
+      password:"",
+    }
+  }
+
+  clicklogin=()=>{
+    fetch("http://192.168.1.7:8000/api/auth/login",{
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          "email": this.state.email,
+          "password": this.state.password,
+          })
+       })
+      .then(  (response) => response.json())
+      .then(  (responseJson) => {    
+        //Alert.alert('Đăng nhập thành công')
+         console.log("responseJsonLogin:", responseJson)
+          //  this.state.email = "";
+          //  this.state.password = ""
+      } )
+      .catch((error)=>
+         Alert.alert('Đăng Kí Thất Bại tại catch')
+      );
+  }
+
+  
   render() {
     return (
       <View style={styles.screenContainer}>
@@ -23,9 +57,7 @@ export default class RegisterScreen extends Component {
                 <Text style={styles.logoDotTxt}>.</Text>
               </Text>
             </View>
-            {/* <View style={styles.logoChain}>
-                <Text style={styles.logoChainTxt}>CHAIN</Text>
-              </View> */}
+            
           </View>
         </View>
         <View style={styles.Register}>
@@ -33,19 +65,21 @@ export default class RegisterScreen extends Component {
           <Text style={styles.subHeader}>Login to continue.</Text>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Email'} style={styles.Input} />
+              <TextInput placeholder={'Email'} style={styles.Input} 
+                onChangeText={(email) => this.setState({email})} value={this.state.email}
+              />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Password'} style={styles.Input} />
+              <TextInput placeholder={'Password'} style={styles.Input} 
+                secureTextEntry onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+              />
             </View>
           </View>
 
-          {/* <TouchableOpacity style={styles.button}>
-                        <Text style={styles.btntext}>Sign Up</Text>
-                    </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.button}
+            style={styles.button} onPress={this.clicklogin.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Login</Text>
@@ -66,7 +100,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   intro: {
-    height: hp('25%'),
+    height: hp('18%'),
     display: 'flex',
     justifyContent: 'flex-start',
     // backgroundColor: 'pink',

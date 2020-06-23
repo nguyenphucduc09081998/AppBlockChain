@@ -13,17 +13,12 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import HomeScreen from '../HomeScreen/index';
-import RoomDetails from '../RoomDetails/index';
-import FilterRoom from '../FilterRoom/filtering';
-// import Profile from '../Profile/index';
-import Payment from '../Payment';
 import RegisterScreen from '../RegisterScreen';
 import LoginScreen from '../LoginScreen';
 import RegisterUserScreen from '../RegisterUserScreen';
 import TransactionScreen from '../TransactionScreen';
 import HistoryScreen from '../HistoryScreen';
-import DetailHistoryScreen from '../DetailHistoryScreen';
+// import DetailHistoryScreen from '../DetailHistoryScreen';
 
 import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
@@ -34,60 +29,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-// const TabNavigator = createMaterialBottomTabNavigator(
-//   {
-//     'Giao Dịch': {
-//       screen: () => <TransactionScreen />,
-//       navigationOptions: {
-//         tabBarLabel: 'Giao Dịch',
-//         tabBarIcon: ({focused, tintColor:color}) => (
-//           <Image source={require('../../../img/transaction.png')}
-//                     style={{width: 22, height: 22}} />
-//         ),
-//       },
-//     },
-//     'Lịch Sử': {
-//       screen: () => <HistoryScreen />,
-//       navigationOptions: {
-//         tabBarLabel: 'Lịch Sử',
-//         tabBarIcon: ({focused, tintColor:color}) => (
-//           <Image source={require('../../../img/booking.png')}
-//                     style={{width: 22, height: 22}} />
-//         ),
-//       },
-//     },
-//     'Đăng Kí': {
-//       screen: () => <RegisterScreen />,
-//       navigationOptions: {
-//         tabBarLabel: 'Đăng Kí',
-//         tabBarIcon: ({focused, tintColor:color}) => (
-//           <Image source={require('../../../img/register.png')}
-//                     style={{width: 22, height: 22}} />
-//         ),
-//       },
-//     },
-//   },
-//   // {
-//   //   shifting: true,
-//   //   activeColor: '#3e2465',
-//   //   inactiveColor: 'gray',
-//   //   barStyle: { backgroundColor: '#fff', shadowColor: '#000',
-//   //   shadowOffset: { width: 1, height: 1 },
-//   //   shadowOpacity: 0.8,
-//   //   shadowRadius: 2,
-//   //   elevation: 5,
-//   //   paddingLeft: 20,
-//   //   width: '160%',
-
-//   //   },
-//   //   // inactiveTintColor: '#f0edf6',
-//   //   // activeTintColor: '#3e2465',
-//   // },
-
-// );
-
-// const BottomTabs = createAppContainer(TabNavigator);
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -134,7 +75,7 @@ const BottomTabs_New = () => {
         name="Login"
         component={LoginScreen}
         options={{
-          tabBarLabel: 'Đăng Nhap',
+          tabBarLabel: 'Đăng Nhập',
           tabBarIcon: ({color}) => (
             <Icon name="key" color={color} size={wp('4%')} />
           ),
@@ -146,7 +87,7 @@ const BottomTabs_New = () => {
         options={{
           tabBarLabel: 'Đăng Ký',
           tabBarIcon: ({color}) => (
-            <Icon name="key" color={color} size={wp('4%')} />
+            <Icon name="comments" color={color} size={wp('4%')} />
           ),
         }}
       />
