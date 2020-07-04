@@ -106,7 +106,8 @@ export default class RegisterScreen extends Component {
                         <Text style={styles.btntext}>Sign Up</Text>
                     </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.button} onPress={this.doRegister.bind(this)}
+            style={styles.button} 
+            onPress={this.doRegister.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Signup</Text>

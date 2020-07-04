@@ -10,6 +10,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import globalVariable from '../../../global/globalVariable';
 
 export default class RegisterScreen extends Component {
 
@@ -35,11 +36,12 @@ export default class RegisterScreen extends Component {
        })
       .then(  (response) => response.json())
       .then(  (responseJson) => {    
-        //Alert.alert('Đăng nhập thành công')
-         console.log("responseJsonLogin:", responseJson)
-          //  this.state.email = "";
-          //  this.state.password = ""
-      } )
+        Alert.alert('Đăng nhập thành công')
+        console.log("responseJsonLogin:", responseJson);
+        this.setState({email: null});
+        this.setState({password: null})
+        globalVariable.Authorization = responseJson.data.token
+      })
       .catch((error)=>
          Alert.alert('Đăng Kí Thất Bại tại catch')
       );

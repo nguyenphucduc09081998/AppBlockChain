@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import globalVariable from '../../../global/globalVariable';
+import responseCode from '../../../global/responseCode';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TextInput,
+  Alert
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -12,33 +15,69 @@ import {
 } from 'react-native-responsive-screen';
 
 export default class RegisterScreen extends Component {
+  //-----------START WRITE FUNCTION--------------
+  constructor(props){
+    super(props);
+    this.state ={
+      public_key: "",
+      private_key: "",
+    }
+  }
+
+  getKey=()=>{
+    fetch( globalVariable.pythonDomain + "/register",{
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {    
+      if(responseJson.code == responseCode.HTTP_OK){
+        Alert.alert('Register Success. You must be remember your private key!');
+        this.setState({private_key: responseJson.data.private_key});
+        this.setState({public_key: responseJson.data.public_key});
+      }
+    })
+    .catch((error)=>{
+      Alert.alert('Register Fail')
+      console.log('REGISTER FAIL', error);
+    });
+  }
+  //-----------END WRITE FUNCTION----------------
+
   render() {
     return (
       <View style={styles.screenContainer}>
         <View style={styles.intro}>
           <View style={styles.title_profile}>
-            <Text style={styles.title}>DANG KY BLOCKCHAIN</Text>
-            <Text style={styles.sub_title}>Subtite de o day!</Text>
+            <Text style={styles.title}>REGISTER BLOCR</Text>
+            <Text style={styles.sub_title}>Get key for first login!</Text>
           </View>
         </View>
         <View style={styles.Register}>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Private Key'} style={styles.Input} />
-            </View>
-
-            <View style={styles.form_group}>
-              <TextInput placeholder={'Public Key'} style={styles.Input} />
-            </View>
-
-            <View style={styles.form_group}>
               <TextInput
-                placeholder={'Message'}
+                placeholder={'Private Key'}
                 multiline={true}
                 numberOfLines={4}
-                textAlignVertical="top"
-                style={styles.Input}
-              />
+                textAlignVertical="top" 
+                value={this.state.private_key}
+                editable={false}  
+                style={styles.Input} />
+            </View>
+
+            <View style={styles.form_group}>
+              <TextInput 
+                placeholder={'Public Key'}
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top" 
+                editable={false}
+                value={this.state.public_key} 
+                style={styles.Input} />
             </View>
           </View>
 
@@ -47,9 +86,9 @@ export default class RegisterScreen extends Component {
                     </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => Alert.alert('Cannot press this one')}
+            onPress={this.getKey.bind(this)}
           >
-            <Text style={styles.btnText}>Đăng ký Blockchain</Text>
+            <Text style={styles.btnText}>Get Private Key</Text>
           </TouchableOpacity>
         </View>
       </View>
