@@ -43,19 +43,19 @@ class TransactionScreen extends React.Component {
             </View>
             <View style={styles.form_input}>
               <View style={styles.form_group}>
-                <Text style={styles.left}> Private key người gửi</Text>
+                <Text style={styles.left}> Your Private key</Text>
                 <TextInput style={[styles.Input]} />
               </View>
               <View style={styles.form_group}>
-                <Text style={styles.left}>Public key người nhận</Text>
+                <Text style={styles.left}>Partner Public key</Text>
                 <TextInput style={styles.Input} />
               </View>
               <View style={styles.form_group}>
-                <Text style={styles.left}>Số Tiền</Text>
+                <Text style={styles.left}>Amount</Text>
                 <TextInput style={styles.Input} />
               </View>
               <View style={styles.form_group}>
-                <Text style={styles.left}>Nội dung</Text>
+                <Text style={styles.left}>Message</Text>
                 <TextInput
                   multiline={true}
                   numberOfLines={4}
@@ -68,7 +68,7 @@ class TransactionScreen extends React.Component {
 
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => Alert.alert('Cannot press this one')}
+            onPress={() => this.props.navigation.navigate('PaymentView')}
           >
             <Text style={styles.btnText}>Chuyển khoản</Text>
           </TouchableOpacity>

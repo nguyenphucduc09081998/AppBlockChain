@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
+import globalVariable from '../../../global/globalVariable'
+import responseCode from '../../../global/responseCode'
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
 
 export default class RegisterScreen extends Component {
 
@@ -23,8 +27,8 @@ export default class RegisterScreen extends Component {
     }
   }
 
-  clickregister=()=>{
-    fetch("http://192.168.1.7:8000/api/auth/register",{
+  doRegister=()=>{
+    fetch( globalVariable.phpDomain + "/api/auth/register",{
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -37,16 +41,15 @@ export default class RegisterScreen extends Component {
           "comfirm_password": this.state.comfirm_password,
           })
        })
-      .then(  (response) => response.json())
-      .then(  (responseJson) => {    
-        ///Alert.alert('Đăng Ký thành công')
-        console.log("responseJsonRegister:", responseJson)
-          //  this.state.email = "";
-          //  this.state.password = ""
-      } )
-      .catch((error)=>
-         Alert.alert('Đăng Kí Thất Bại tại catch')
-      );
+      .then((response) => response.json())
+        .then((responseJson) => {    
+          if(responseJson.code == responseCode.HTTP_OK){
+            Alert.alert('Register Success')
+          }
+        })
+      .catch((error)=>{
+        console.log('REGISTER FAIL', error);
+      });
   }
 
   render() {
@@ -103,7 +106,7 @@ export default class RegisterScreen extends Component {
                         <Text style={styles.btntext}>Sign Up</Text>
                     </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.button} onPress={this.clickregister.bind(this)}
+            style={styles.button} onPress={this.doRegister.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Signup</Text>
