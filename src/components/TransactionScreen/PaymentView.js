@@ -15,7 +15,7 @@ import {
     Button,
   } from 'react-native';
   import {withNavigation} from 'react-navigation';
-class PaymentView extends React.Component {
+export default class PaymentView extends React.Component {
     constructor(props) {
       super(props);
     }
@@ -28,4 +28,3 @@ class PaymentView extends React.Component {
         );
     }
 };
-export default withNavigation(PaymentView);

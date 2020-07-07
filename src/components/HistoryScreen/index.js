@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   FlatList,
+  Picker,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
@@ -13,25 +14,36 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import globalVariable from '../../../global/globalVariable';
+import responseCode from '../../../global/responseCode';
 
 export default class HistoryScreen extends Component {
   constructor() {
     super();
     this.state = {
       dataSource: [],
-      //isLoading:true
+      //isLoading:true,
+      condition: 0
     };
   }
 
   renderFilter = () => {
     return (
       <View style={styles.filterConainter}>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <View style={styles.filterBtn}>
             <Text style={styles.filterText}>Filter</Text>
             <Icon name="caretdown" size={wp('2%')} color="#0091ae" />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Picker
+          selectedValue={this.state.condition}
+          style={styles.filterBtn}
+          //onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        >
+          <Picker.Item  label="Receive" value="0" style={styles.filterText}/>
+          <Picker.Item label="Given" value="1" style={styles.filterText}/>
+        </Picker>
       </View>
     );
   };
@@ -203,6 +215,8 @@ const styles = StyleSheet.create({
     borderRadius: wp('4%'),
     paddingVertical: wp('2%'),
     paddingHorizontal: wp('4%'),
+    height: 50,
+    width: 100,
   },
   filterText: {
     fontFamily: 'Rubik-Medium',

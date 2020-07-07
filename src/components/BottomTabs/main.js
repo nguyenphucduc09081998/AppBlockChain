@@ -17,11 +17,13 @@ import RegisterScreen from '../RegisterScreen';
 import LoginScreen from '../LoginScreen';
 import RegisterUserScreen from '../RegisterUserScreen';
 import TransactionScreen from '../TransactionScreen';
+import PaymentView from '../TransactionScreen/PaymentView';
 import HistoryScreen from '../HistoryScreen';
 // import DetailHistoryScreen from '../DetailHistoryScreen';
 
 import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {Table, Rows} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Fontisto';
@@ -35,15 +37,17 @@ const Tab = createMaterialBottomTabNavigator();
 const BottomTabs_New = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Transactions"
+      initialRouteName="Login"
       activeColor="#0091ae"
       inactiveColor="#000"
       // activeColor="#fff"
       labelStyle={{fontSize: 12}}
-      barStyle={{backgroundColor: '#fbfbfd'}}>
+      barStyle={{backgroundColor: '#fbfbfd'}}
+
+    >
       <Tab.Screen
-        name="Transactions"
-        component={TransactionScreen}
+        name="NestedTransaction"
+        component={StackNavigations}
         options={{
           tabBarLabel: 'Giao Dịch',
           tabBarIcon: ({color}) => (
@@ -94,6 +98,17 @@ const BottomTabs_New = () => {
     </Tab.Navigator>
   );
 };
+
+const Stack = createStackNavigator();
+
+const StackNavigations = () => (
+  <Stack.Navigator initialRouteName="Transactions" screenOptions={{
+    headerShown: false
+  }}>
+      <Stack.Screen name="Transactions" component={TransactionScreen} />
+      <Stack.Screen name="PaymentView" component={PaymentView} />
+  </Stack.Navigator>
+);
 
 const WrappedBottomTabs = () => (
   <NavigationContainer>

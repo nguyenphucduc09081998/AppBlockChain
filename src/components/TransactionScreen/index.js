@@ -3,31 +3,58 @@ import {
   Text,
   View,
   StyleSheet,
-  StatusBar,
-  ListView,
   ScrollView,
   TouchableOpacity,
-  Alert,
-  Image,
   TextInput,
-  Group,
-  TouchableHighlight,
-  Button,
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import globalVariable from '../../../global/globalVariable';
+import responseCode from '../../../global/responseCode';
 
-import {withNavigation} from 'react-navigation';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-class TransactionScreen extends React.Component {
+export default class TransactionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       date: '2016-05-15',
+      stock: 0
     };
+    console.log('PROPS', this.props);
+  }
+  getAvailableStock=() => {
+    console.log('Get avail stock');
+    
+    let publicKey = globalVariable.userInfo ? globalVariable.userInfo.public_key : '';
+    fetch( globalVariable.pythonDomain + "/balance?public_key=" + publicKey)
+    .then((response) => response.json())
+    .then((responseJson) => {    
+      Alert.alert('Get stock success')
+      console.log("responseJson:", responseJson);
+      this.setState({stock: responseJson.balance});
+    })
+    .catch((error)=>{
+      Alert.alert('Get stock fail');
+      console.log('ERROR', error);
+    });
+  }
+
+  componentDidMount(){
+    console.log('MOUNT FUNC');
+    this.getAvailableStock();
+  }
+
+  componentDidUpdate() {
+    console.log('Component did update');
+    
+    this.props.navigation.addListener('focus', ()=>{
+      this.getAvailableStock();
+    })
   }
 
   render() {
@@ -36,10 +63,13 @@ class TransactionScreen extends React.Component {
         <View style={{flex: 1, flexDirection: 'column'}}>
           <View style={styles.input_profile}>
             <View style={styles.title_profile}>
-              <Text style={styles.title}>THÔNG TIN GIAO DỊCH</Text>
+              <Text style={styles.title}>CREATE TRANSACTION</Text>
               <Text style={styles.sub_title}>
-                Thông tin chi tiết người nhận
+                Transaction Information
               </Text>
+            </View>
+            <View style={styles.stock}>
+              <Text>Available Stock: {this.state.stock}</Text>
             </View>
             <View style={styles.form_input}>
               <View style={styles.form_group}>
@@ -92,7 +122,7 @@ var styles = StyleSheet.create({
   title: {
     fontFamily: 'Rubik-Medium',
     fontSize: wp('6%'),
-    marginBottom: 4,
+    //marginBottom: 4,
     color: '#0091ae',
     letterSpacing: 1.15,
   },
@@ -146,5 +176,12 @@ var styles = StyleSheet.create({
   datePicker: {
     width: '100%',
   },
+  stock:{
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    fontFamily: 'Rubik-Medium',
+    marginBottom: 4,
+    color: '#0091ae',
+  }
 });
-export default withNavigation(TransactionScreen);

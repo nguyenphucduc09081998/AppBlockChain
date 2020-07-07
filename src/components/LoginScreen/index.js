@@ -4,15 +4,18 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,Alert,
+  TextInput,
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {withNavigation} from 'react-navigation';
 import globalVariable from '../../../global/globalVariable';
-
-export default class RegisterScreen extends Component {
+import responseCode from '../../../global/responseCode';
+class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -22,29 +25,32 @@ export default class RegisterScreen extends Component {
     }
   }
 
-  clicklogin=()=>{
-    fetch("http://192.168.1.7:8000/api/auth/login",{
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+  doLogin=()=>{
+    fetch( globalVariable.phpDomain + "/api/auth/login",{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          "email": this.state.email,
-          "password": this.state.password,
-          })
-       })
-      .then(  (response) => response.json())
-      .then(  (responseJson) => {    
-        Alert.alert('Đăng nhập thành công')
+        "email": this.state.email,
+        "password": this.state.password,
+      })
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {    
+        Alert.alert('Login success')
         console.log("responseJsonLogin:", responseJson);
         this.setState({email: null});
-        this.setState({password: null})
-        globalVariable.Authorization = responseJson.data.token
+        this.setState({password: null});
+        //globalVariable.Authorization = responseJson.data.token;
+        globalVariable.userInfo = responseJson.data.user;
+        //AsyncStorage.setItem("@public_key", responseJson.data.user.public_key);
       })
-      .catch((error)=>
-         Alert.alert('Đăng Kí Thất Bại tại catch')
-      );
+      .catch((error)=>{
+        Alert.alert('Login Fail');
+        console.log('ERROR', error);
+      });
   }
 
   
@@ -55,11 +61,10 @@ export default class RegisterScreen extends Component {
           <View style={styles.logo}>
             <View style={styles.logoBlock}>
               <Text>
-                <Text style={styles.logoBlockTxt}>BLOCKR</Text>{' '}
+                <Text style={styles.logoBlockTxt}>BLOCKR</Text>
                 <Text style={styles.logoDotTxt}>.</Text>
               </Text>
             </View>
-            
           </View>
         </View>
         <View style={styles.Register}>
@@ -81,7 +86,7 @@ export default class RegisterScreen extends Component {
           </View>
 
           <TouchableOpacity
-            style={styles.button} onPress={this.clicklogin.bind(this)}
+            style={styles.button} onPress={this.doLogin.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Login</Text>
@@ -212,3 +217,4 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 });
+export default withNavigation(LoginScreen);
