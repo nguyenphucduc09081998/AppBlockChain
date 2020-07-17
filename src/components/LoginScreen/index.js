@@ -40,12 +40,14 @@ class LoginScreen extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        Alert.alert('Login success')
-        console.log("responseJsonLogin:", responseJson);
-        this.setState({ email: null });
-        this.setState({ password: null });
-        //globalVariable.Authorization = responseJson.data.token;
-        globalVariable.userInfo = responseJson.data.user;
+        if (responseJson.code == responseCode.HTTP_OK) {
+          this.setState({ email: null });
+          this.setState({ password: null });
+          globalVariable.userInfo = responseJson.data.user;
+          this.props.navigation.navigate('BottomTabs')
+        } else {
+          Alert.alert('The email-password is not a valid email address');
+        }
         //AsyncStorage.setItem("@public_key", responseJson.data.user.public_key);
       })
       .catch((error) => {
@@ -89,8 +91,8 @@ class LoginScreen extends Component {
           <TouchableOpacity
             style={styles.button}
             onPress={this.doLogin.bind(this)}
-            // onPress={() => Alert.alert('Cannot press this one')}
-            // onPress={() => this.props.navigation.navigate('BottomTabs')}
+          // onPress={() => Alert.alert('Cannot press this one')}
+          // onPress={() => this.props.navigation.navigate('BottomTabs')}
 
           >
             <Text style={styles.btnText}>Login</Text>

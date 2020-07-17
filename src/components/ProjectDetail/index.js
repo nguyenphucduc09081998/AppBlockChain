@@ -47,6 +47,7 @@ export default class ProjectScreen extends React.Component {
 
   componentDidMount() {
     console.log('MOUNT FUNC');
+    console.log("globalVariable:", globalVariable.userInfo);
     //this.getAvailableStock();
   }
 

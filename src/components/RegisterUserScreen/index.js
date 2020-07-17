@@ -16,42 +16,49 @@ import {
 
 
 export default class RegisterScreen extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       email: "",
       password: "",
-      comfirm_password: ""
+      password_confirmation: ""
     }
   }
-
+  // password_confirmation
   doRegister = () => {
-    fetch(globalVariable.phpDomain + "/api/auth/register", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "name": this.state.name,
-        "email": this.state.email,
-        "password": this.state.password,
-        "comfirm_password": this.state.comfirm_password,
+    if (this.state.password == this.state.password_confirmation) {
+      fetch(globalVariable.phpDomain + "/api/auth/register", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "name": this.state.name,
+          "email": this.state.email,
+          "password": this.state.password,
+          "password_confirmation": this.state.password_confirmation,
+        })
       })
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        if (responseJson.code == responseCode.HTTP_OK) {
-          Alert.alert('Register Success')
-        }
-      })
-      .catch((error) => {
-        Alert.alert('Register Fail')
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (responseJson.code == responseCode.HTTP_OK) {
+            // Alert.alert('Register Success')
+            this.props.navigation.navigate('LoginScreen')
 
-        // console.log('REGISTER FAIL', error);
-      });
+          } else {
+            Alert.alert('The email has already been taken')
+          }
+        })
+        .catch((error) => {
+          Alert.alert('Register Fail')
+
+          // console.log('REGISTER FAIL', error);
+        });
+    } else {
+      Alert.alert('The password confirmation does not match')
+    }
   }
 
   render() {
@@ -98,8 +105,8 @@ export default class RegisterScreen extends Component {
             <View style={styles.form_group}>
               <TextInput
                 placeholder={'Confirm Password'} style={styles.Input} secureTextEntry
-                onChangeText={(confirm_password) => this.setState({ confirm_password })}
-                value={this.state.confirm_password}
+                onChangeText={(password_confirmation) => this.setState({ password_confirmation })}
+                value={this.state.password_confirmation}
               />
             </View>
           </View>

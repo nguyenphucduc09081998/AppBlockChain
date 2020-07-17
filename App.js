@@ -33,7 +33,7 @@ const App = () => (
 );
 const Stack = createStackNavigator();
 const StackNavigations = () => (
-  <Stack.Navigator initialRouteName="BottomTabs" screenOptions={{
+  <Stack.Navigator initialRouteName="RegisterUserScreen" screenOptions={{
     headerShown: false
   }}>
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
