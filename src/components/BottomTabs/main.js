@@ -19,7 +19,7 @@ import RegisterUserScreen from '../RegisterUserScreen';
 import TransactionScreen from '../TransactionScreen';
 import PaymentView from '../TransactionScreen/PaymentView';
 import HistoryScreen from '../HistoryScreen';
-// import DetailHistoryScreen from '../DetailHistoryScreen';
+import ProjectDetail from '../ProjectDetail';
 
 import {createAppContainer} from 'react-navigation';
 import {NavigationContainer} from '@react-navigation/native';
@@ -37,7 +37,7 @@ const Tab = createMaterialBottomTabNavigator();
 const BottomTabs_New = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Login"
+      initialRouteName="ProjectDetail"
       activeColor="#0091ae"
       inactiveColor="#000"
       // activeColor="#fff"
@@ -76,16 +76,17 @@ const BottomTabs_New = () => {
         }}
       />
       <Tab.Screen
-        name="Login"
-        component={LoginScreen}
+        name="ProjectDetail"
+        // component={LoginScreen}
+        component={ProjectDetail}
         options={{
-          tabBarLabel: 'Đăng Nhập',
+          tabBarLabel: 'Chi Tiết',
           tabBarIcon: ({color}) => (
             <Icon name="key" color={color} size={wp('4%')} />
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Signup"
         component={RegisterUserScreen}
         options={{
@@ -94,7 +95,7 @@ const BottomTabs_New = () => {
             <Icon name="comments" color={color} size={wp('4%')} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
@@ -111,7 +112,7 @@ const StackNavigations = () => (
 );
 
 const WrappedBottomTabs = () => (
-  <NavigationContainer>
+  <NavigationContainer independent={true}>
     <BottomTabs_New />
   </NavigationContainer>
 );

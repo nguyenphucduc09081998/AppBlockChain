@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import globalVariable from '../../../global/globalVariable'
 import responseCode from '../../../global/responseCode'
 import {
@@ -17,9 +17,9 @@ import {
 
 export default class RegisterScreen extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       name: "",
       email: "",
       password: "",
@@ -27,28 +27,30 @@ export default class RegisterScreen extends Component {
     }
   }
 
-  doRegister=()=>{
-    fetch( globalVariable.phpDomain + "/api/auth/register",{
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+  doRegister = () => {
+    fetch(globalVariable.phpDomain + "/api/auth/register", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          "name": this.state.name,
-          "email": this.state.email,
-          "password": this.state.password,
-          "comfirm_password": this.state.comfirm_password,
-          })
-       })
+        "name": this.state.name,
+        "email": this.state.email,
+        "password": this.state.password,
+        "comfirm_password": this.state.comfirm_password,
+      })
+    })
       .then((response) => response.json())
-        .then((responseJson) => {    
-          if(responseJson.code == responseCode.HTTP_OK){
-            Alert.alert('Register Success')
-          }
-        })
-      .catch((error)=>{
-        console.log('REGISTER FAIL', error);
+      .then((responseJson) => {
+        if (responseJson.code == responseCode.HTTP_OK) {
+          Alert.alert('Register Success')
+        }
+      })
+      .catch((error) => {
+        Alert.alert('Register Fail')
+
+        // console.log('REGISTER FAIL', error);
       });
   }
 
@@ -73,30 +75,30 @@ export default class RegisterScreen extends Component {
           <Text style={styles.subHeader}>Signup to continue.</Text>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Name'} style={styles.Input} 
-                  onChangeText={(name) => this.setState({name})}
-                  value={this.state.name}  
+              <TextInput placeholder={'Name'} style={styles.Input}
+                onChangeText={(name) => this.setState({ name })}
+                value={this.state.name}
               />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Email'} style={styles.Input} 
-                  onChangeText={(email) => this.setState({email})}    
-                  value={this.state.email}  
+              <TextInput placeholder={'Email'} style={styles.Input}
+                onChangeText={(email) => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
 
             <View style={styles.form_group}>
               <TextInput placeholder={'Password'} style={styles.Input} secureTextEntry
-                  onChangeText={(password) => this.setState({password})}
-                  value={this.state.password}
+                onChangeText={(password) => this.setState({ password })}
+                value={this.state.password}
               />
             </View>
 
             <View style={styles.form_group}>
               <TextInput
                 placeholder={'Confirm Password'} style={styles.Input} secureTextEntry
-                onChangeText={(confirm_password) => this.setState({confirm_password})}
+                onChangeText={(confirm_password) => this.setState({ confirm_password })}
                 value={this.state.confirm_password}
               />
             </View>
@@ -106,12 +108,23 @@ export default class RegisterScreen extends Component {
                         <Text style={styles.btntext}>Sign Up</Text>
                     </TouchableOpacity> */}
           <TouchableOpacity
-            style={styles.button} 
+            style={styles.button}
             onPress={this.doRegister.bind(this)}
-            // onPress={() => Alert.alert('Cannot press this one')}
+          // onPress={() => Alert.alert('Cannot press this one')}
           >
             <Text style={styles.btnText}>Signup</Text>
           </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity style={styles.button_account}
+              // onPress={() => Alert.alert('Cannot press this one')}
+              onPress={() => this.props.navigation.navigate('LoginScreen')}
+
+            >
+              <Text style={styles.btnText_account}>screen login</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
       </View>
     );
@@ -209,6 +222,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Rubik',
     // flex: 1
   },
+  button_account: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ff7a59',
+    borderRadius: 15,
+    height: 30,
+    width: 50,
+    fontFamily: 'Rubik',
+    marginTop: 15,
+  },
+
   btnText: {
     color: '#fff',
     fontSize: wp('4%'),

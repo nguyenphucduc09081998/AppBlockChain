@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,21 +12,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {withNavigation} from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import globalVariable from '../../../global/globalVariable';
 import responseCode from '../../../global/responseCode';
 class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state={
-      email:"",
-      password:"",
+    this.state = {
+      email: "",
+      password: "",
     }
   }
 
-  doLogin=()=>{
-    fetch( globalVariable.phpDomain + "/api/auth/login",{
+  doLogin = () => {
+    // Alert.alert('Cannot press this one');
+    fetch(globalVariable.phpDomain + "/api/auth/login", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -38,22 +39,22 @@ class LoginScreen extends Component {
       })
     })
       .then((response) => response.json())
-      .then((responseJson) => {    
+      .then((responseJson) => {
         Alert.alert('Login success')
         console.log("responseJsonLogin:", responseJson);
-        this.setState({email: null});
-        this.setState({password: null});
+        this.setState({ email: null });
+        this.setState({ password: null });
         //globalVariable.Authorization = responseJson.data.token;
         globalVariable.userInfo = responseJson.data.user;
         //AsyncStorage.setItem("@public_key", responseJson.data.user.public_key);
       })
-      .catch((error)=>{
+      .catch((error) => {
         Alert.alert('Login Fail');
         console.log('ERROR', error);
       });
   }
 
-  
+
   render() {
     return (
       <View style={styles.screenContainer}>
@@ -72,25 +73,38 @@ class LoginScreen extends Component {
           <Text style={styles.subHeader}>Login to continue.</Text>
           <View style={styles.inputContainer}>
             <View style={styles.form_group}>
-              <TextInput placeholder={'Email'} style={styles.Input} 
-                onChangeText={(email) => this.setState({email})} value={this.state.email}
+              <TextInput placeholder={'Email'} style={styles.Input}
+                onChangeText={(email) => this.setState({ email })} value={this.state.email}
               />
             </View>
 
             <View style={styles.form_group}>
-              <TextInput placeholder={'Password'} style={styles.Input} 
-                secureTextEntry onChangeText={(password) => this.setState({password})}
+              <TextInput placeholder={'Password'} style={styles.Input}
+                secureTextEntry onChangeText={(password) => this.setState({ password })}
                 value={this.state.password}
               />
             </View>
           </View>
 
           <TouchableOpacity
-            style={styles.button} onPress={this.doLogin.bind(this)}
+            style={styles.button}
+            onPress={this.doLogin.bind(this)}
             // onPress={() => Alert.alert('Cannot press this one')}
+            // onPress={() => this.props.navigation.navigate('BottomTabs')}
+
           >
             <Text style={styles.btnText}>Login</Text>
           </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity style={styles.button_account}
+              // onPress={() => Alert.alert('Cannot press this one')}
+              onPress={() => this.props.navigation.navigate('RegisterUserScreen')}
+
+            >
+              <Text style={styles.btnText_account}>register</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
