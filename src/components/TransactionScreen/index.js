@@ -100,7 +100,7 @@ export default class TransactionScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate('PaymentView')}
           >
-            <Text style={styles.btnText}>Chuyển khoản</Text>
+            <Text style={styles.btnText}>Sent</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -150,7 +150,7 @@ var styles = StyleSheet.create({
     borderRadius: 6,
     width: '100%',
     backgroundColor: '#f1f2f5',
-    marginBottom: 16,
+    marginBottom: 5,
     paddingVertical: wp('2.25%'),
     paddingHorizontal: wp('2%'),
     fontSize: wp('4%'),

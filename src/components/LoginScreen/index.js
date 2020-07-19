@@ -40,6 +40,8 @@ class LoginScreen extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log('responseJson', responseJson);
+
         if (responseJson.code == responseCode.HTTP_OK) {
           this.setState({ email: null });
           this.setState({ password: null });
@@ -100,11 +102,9 @@ class LoginScreen extends Component {
 
           <View>
             <TouchableOpacity style={styles.button_account}
-              // onPress={() => Alert.alert('Cannot press this one')}
               onPress={() => this.props.navigation.navigate('RegisterUserScreen')}
-
             >
-              <Text style={styles.btnText_account}>register</Text>
+              <Text style={styles.btnText_account}>Don't have account? Click here to signup</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -193,6 +193,14 @@ const styles = StyleSheet.create({
   noborderbottom: {
     borderBottomColor: 'transparent',
     borderBottomWidth: 0,
+  },
+  btnText_account:{
+    marginTop:5,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    color: '#46596b',
+    // display: 'flex',
+    // flex: 1
   },
   button: {
     alignItems: 'center',
