@@ -20,79 +20,65 @@ import {
 
 export default class ProjectScreen extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     date: '2016-05-15',
-  //     stock: 0
-  //   };
-  //   console.log('PROPS', this.props);
-  // }
-  // getAvailableStock=() => {
-  //   console.log('Get avail stock');
-
-  //   let publicKey = globalVariable.userInfo ? globalVariable.userInfo.public_key : '';
-  //   fetch( globalVariable.pythonDomain + "/balance?public_key=" + publicKey)
-  //   .then((response) => response.json())
-  //   .then((responseJson) => {    
-  //     Alert.alert('Get stock success')
-  //     console.log("responseJson:", responseJson);
-  //     this.setState({stock: responseJson.balance});
-  //   })
-  //   .catch((error)=>{
-  //     Alert.alert('Get stock fail');
-  //     console.log('ERROR', error);
-  //   });
-  // }
-
-  componentDidMount() {
-    console.log('MOUNT FUNC');
-    console.log("globalVariable:", globalVariable.userInfo);
-    //this.getAvailableStock();
+  constructor(props) {
+    super(props);
+    this.state = {
+      stocks: "",
+      price: "",
+      description: ""
+    }
   }
 
-  // componentDidUpdate() {
-  //   console.log('Component did update');
+  componentDidMount() {
+    // console.log('componentDidMount project detail');
+    fetch(globalVariable.phpDomain + "/api/auth/projectdetail")
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ stocks: responseJson[0].stocks });
+        this.setState({ name: responseJson[0].name });
+        this.setState({ price: responseJson[0].price });
+        this.setState({ description: responseJson[0].description });
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
-  //   this.props.navigation.addListener('focus', ()=>{
-  //     this.getAvailableStock();
-  //   })
-  // }
+  }
 
   render() {
     return (
-      <ScrollView contentContainerStyle={[styles.container]}>
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <View style={styles.input_profile}>
+      // <ScrollView contentContainerStyle={[styles.container]}>
+      <View style={styles.container}>
+        {/* <View style={styles.input_profile}> */}
 
-            <View style={styles.title_profile}>
-              <Text style={styles.sub_title}>
-                Name:
-                <Text style={styles.title}> Duc Nguyen Hihi</Text>
-              </Text>
-            </View>
+        <View style={styles.title_profile}>
+          <Text style={styles.sub_title}>
+            Name:
+            <Text style={styles.title}> {this.state.name}</Text>
+          </Text>
+        </View>
 
-            <View>
-              <Text style={styles.title_description}>Thông tin chi tiết dự án</Text>
-            </View>
+        <View>
+          <Text style={styles.title_description}>Thông tin chi tiết dự án</Text>
+        </View>
 
-            <View style={styles.form_input}>
-              <View style={styles.form_group}>
-                <Text style={styles.left}>Stocks:</Text>
-                <Text style={styles.lable_stock}> Duc Nguyen Hihi</Text>
-              </View>
-              <View style={styles.form_group}>
-                <Text style={styles.left}>Price:</Text>
-                <Text style={styles.lable_stock}> Duc Nguyen Hihi</Text>
-              </View>
-              <View style={styles.form_group}>
-                <Text style={styles.left}>Description:</Text>
-                <Text style={styles.lable_stock}> Is there an equivalent to this n equivalent to this CSS in React Native, so that the app uses the same font everywhere ?</Text>
-              </View>
-            </View>
+        <View style={styles.form_input}>
+          <View style={styles.form_group}>
+            <Text style={styles.left}>Stocks:</Text>
+            <Text style={styles.lable_stock}> {this.state.stocks}</Text>
+          </View>
+          <View style={styles.form_group}>
+            <Text style={styles.left}>Price:</Text>
+            <Text style={styles.lable_stock}> {this.state.price}</Text>
+          </View>
+          <View style={styles.form_group}>
+            <Text style={styles.left}>Description:</Text>
+            <Text style={styles.lable_stock}>{this.state.description} </Text>
           </View>
         </View>
-      </ScrollView>
+        {/* </View> */}
+      </View>
+      // </ScrollView>
     );
   }
 }
@@ -116,11 +102,13 @@ var styles = StyleSheet.create({
 
   title_profile: {
     marginBottom: 38,
+
   },
-  title_description:{
+  title_description: {
     fontSize: wp('5%'),
     letterSpacing: 1.15,
-
+    borderBottomColor: '#8A8383',
+    borderBottomWidth: 2,
   },
   title: {
     fontFamily: 'Rubik-Medium',
@@ -160,17 +148,25 @@ var styles = StyleSheet.create({
     fontFamily: 'Inconsolata-Regular',
   },
   form_input: {
-    marginBottom: hp('1.25%'),
+    marginTop: 10,
   },
   form_group: {
+    marginTop: 5,
     flexWrap: 'wrap',
     flexDirection: 'row',
+    borderWidth: 1,
+    padding: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
   },
   left: {
     justifyContent: 'flex-end',
     color: '#46596b',
     fontSize: wp('3.5%'),
     marginBottom: 8,
+    fontWeight: "bold",
+    fontFamily: 'Inconsolata-Regular',
+
   },
   right: {
     flexDirection: 'row-reverse',

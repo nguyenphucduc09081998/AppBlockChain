@@ -36,13 +36,13 @@ class Profile extends React.Component {
             password_confirmation: "",
             id: globalVariable.userInfo.id,
         }
-
     }
-
+    doLogout = () => {
+        Alert.alert('Click Logout');
+        this.props.navigation.navigate('RegisterUserScreen')
+    }
     doUpdate = () => {
         if (this.state.password == this.state.password_confirmation) {
-            //Alert.alert('OK')
-// console.log('responseJson', responseJson);
             fetch(globalVariable.phpDomain + "/api/auth/UserUpdate", {
                 method: 'POST',
                 headers: {
@@ -61,9 +61,6 @@ class Profile extends React.Component {
             .then((responseJson) => {
                 console.log('responseJson', responseJson);
                 if (responseJson.code == responseCode.HTTP_OK) {
-                    
-                    //this.setState({ email: null });
-                    //this.setState({ password: null });
                     globalVariable.userInfo = responseJson.data.user;
                     this.props.navigation.navigate('BottomTabs');
                     Alert.alert('Update User successfully');
@@ -74,12 +71,10 @@ class Profile extends React.Component {
             })
             .catch((error) => {
                 Alert.alert('Update Fail');
-                // console.log('ERROR', error);
             });
         }else{
             Alert.alert('The password confirmation does not match')
         }
-       
     }
 
     render() {
@@ -89,7 +84,7 @@ class Profile extends React.Component {
                     <View style={styles.avt_gr}>
                         <View style={[styles.col_md_4]}>
                             <Image source={require('../../../img/man.png')} style={{ marginLeft: 5 }} />
-                            <Text>Lê Minh Hiếu</Text>
+                            <Text>{this.state.name}</Text>
                         </View>
                     </View>
                     <View style={styles.input_profile}>
@@ -135,6 +130,7 @@ class Profile extends React.Component {
 
                     <TouchableOpacity
                         style={styles.button_logout}
+                        onPress={this.doLogout.bind(this)}
                     >
                         <Text style={styles.btnText}>Logout</Text>
                     </TouchableOpacity>

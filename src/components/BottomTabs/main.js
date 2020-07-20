@@ -38,7 +38,7 @@ const Tab = createMaterialBottomTabNavigator();
 const BottomTabs_New = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Profile"
+      initialRouteName="ProjectDetail"
       activeColor="#0091ae"
       inactiveColor="#000"
       // activeColor="#fff"
