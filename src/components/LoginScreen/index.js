@@ -26,7 +26,6 @@ class LoginScreen extends Component {
   }
 
   doLogin = () => {
-    // Alert.alert('Cannot press this one');
     fetch(globalVariable.phpDomain + "/api/auth/login", {
       method: 'POST',
       headers: {

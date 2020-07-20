@@ -52,9 +52,8 @@ export default class RegisterScreen extends Component {
           }
         })
         .catch((error) => {
-          Alert.alert('Register Fail')
-
-          // console.log('REGISTER FAIL', error);
+          Alert.alert('Register Fail');
+          console.log('REGISTER FAIL', error);
         });
     } else {
       Alert.alert('The password confirmation does not match')

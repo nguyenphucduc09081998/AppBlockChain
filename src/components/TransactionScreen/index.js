@@ -23,13 +23,14 @@ export default class TransactionScreen extends React.Component {
     super(props);
     this.state = {
       date: '2016-05-15',
-      stock: 0
+      stock: 0,
+      private_key: '426d4032eb945b3ae164273a073ea6159a0d9f3b34abc26c2379f27ce5cc31fc',
+      public_key: '30f13fbf1340d2df2afbbff7ba7120a23600949d680a468e37a0c2b49c7caba42d2c97f9bcc172122854152b45e6280a0d28211c56f6d2704ceeaa1f67de8906',
+      amount: 0,
+      message: null
     };
-    console.log('PROPS', this.props);
   }
-  getAvailableStock=() => {
-    console.log('Get avail stock');
-    
+  getAvailableStock=() => {    
     let publicKey = globalVariable.userInfo ? globalVariable.userInfo.public_key : '';
     fetch( globalVariable.pythonDomain + "/balance?public_key=" + publicKey)
     .then((response) => response.json())
@@ -42,6 +43,40 @@ export default class TransactionScreen extends React.Component {
       Alert.alert('Get stock fail');
       console.log('ERROR', error);
     });
+  }
+
+  createTransaction=() => {   
+    let formData = new FormData();
+    formData.append("private_key", this.state.private_key);
+    formData.append("public_ley", this.state.public_key);
+    formData.append("msg", this.state.message);
+    formData.append("amount", this.state.amount);
+    fetch( globalVariable.pythonDomain + "/transaction/create",{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: formData
+    })
+    .then((response) => response.json())
+      .then((responseJson) => {    
+        if(responseJson.code == responseCode.HTTP_OK){
+          Alert.alert('Create transaction Success')
+        }
+      })
+    .catch((error)=>{
+      console.log('CREATE TRANSACTION FAIL', error);
+      Alert.alert('Create transaction Fail')
+    });
+  }
+
+  validCreateTransaction=() => {
+    if(this.state.stock > this.state.amount){
+      this.createTransaction()
+    }else{
+      Alert.alert('You not enough stock');
+    }
   }
 
   componentDidMount(){
@@ -74,15 +109,15 @@ export default class TransactionScreen extends React.Component {
             <View style={styles.form_input}>
               <View style={styles.form_group}>
                 <Text style={styles.left}> Your Private key</Text>
-                <TextInput style={[styles.Input]} />
+                <TextInput style={[styles.Input]} value={this.state.private_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Partner Public key</Text>
-                <TextInput style={styles.Input} />
+                <TextInput style={styles.Input}  value={this.state.public_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Amount</Text>
-                <TextInput style={styles.Input} />
+                <TextInput style={styles.Input}  value={this.state.amount}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Message</Text>
@@ -91,6 +126,7 @@ export default class TransactionScreen extends React.Component {
                   numberOfLines={4}
                   textAlignVertical="top"
                   style={styles.Input}
+                  value={this.state.message}
                 />
               </View>
             </View>
@@ -98,9 +134,9 @@ export default class TransactionScreen extends React.Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('PaymentView')}
+            onPress={this.validCreateTransaction()}
           >
-            <Text style={styles.btnText}>Chuyển khoản</Text>
+            <Text style={styles.btnText}>Create Transaction</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

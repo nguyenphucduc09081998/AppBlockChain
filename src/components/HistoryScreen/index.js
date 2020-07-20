@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   Picker,
+  Alert,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
@@ -27,6 +28,37 @@ export default class HistoryScreen extends Component {
     };
   }
 
+  componentDidMount(){
+    console.log('MOUNT FUNC');
+    this.getHistory();
+  };
+
+  componentDidUpdate() {
+    console.log('update history');
+    
+    this.props.navigation.addListener('focus', ()=>{
+      this.getHistory();
+    })
+  }
+  getHistory=() => {
+    fetch( globalVariable.phpDomain + "/api/transaction-history?type=1", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': globalVariable.Authorization
+      }
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {    
+        Alert.alert('Get History Success')
+        console.log("responseJsonLogin:", responseJson);
+      })
+      .catch((error)=>{
+        Alert.alert('Get History fail');
+        console.log('ERROR', error);
+      });
+  };
   renderFilter = () => {
     return (
       <View style={styles.filterConainter}>
