@@ -43,6 +43,7 @@ class LoginScreen extends Component {
           this.setState({ email: null });
           this.setState({ password: null });
           globalVariable.userInfo = responseJson.data.user;
+          globalVariable.Authorization = responseJson.data.token;
           this.props.navigation.navigate('BottomTabs')
         } else {
           Alert.alert('The email-password is not a valid email address');
@@ -99,11 +100,9 @@ class LoginScreen extends Component {
 
           <View>
             <TouchableOpacity style={styles.button_account}
-              // onPress={() => Alert.alert('Cannot press this one')}
               onPress={() => this.props.navigation.navigate('RegisterUserScreen')}
-
             >
-              <Text style={styles.btnText_account}>register</Text>
+              <Text style={styles.btnText_account}>Don't have account? Click here to signup</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -192,6 +191,14 @@ const styles = StyleSheet.create({
   noborderbottom: {
     borderBottomColor: 'transparent',
     borderBottomWidth: 0,
+  },
+  btnText_account:{
+    marginTop:5,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    color: '#46596b',
+    // display: 'flex',
+    // flex: 1
   },
   button: {
     alignItems: 'center',

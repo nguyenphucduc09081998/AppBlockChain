@@ -16,6 +16,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import RegisterScreen from '../RegisterScreen';
 import LoginScreen from '../LoginScreen';
 import RegisterUserScreen from '../RegisterUserScreen';
+import Profile from '../Profile';
 import TransactionScreen from '../TransactionScreen';
 import PaymentView from '../TransactionScreen/PaymentView';
 import HistoryScreen from '../HistoryScreen';
@@ -86,16 +87,16 @@ const BottomTabs_New = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Signup"
-        component={RegisterUserScreen}
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
         options={{
-          tabBarLabel: 'Đăng Ký',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({color}) => (
             <Icon name="comments" color={color} size={wp('4%')} />
           ),
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };

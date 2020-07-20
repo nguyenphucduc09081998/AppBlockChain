@@ -36,7 +36,6 @@ export default class TransactionScreen extends React.Component {
     .then((response) => response.json())
     .then((responseJson) => {    
       Alert.alert('Get stock success')
-      console.log("responseJson:", responseJson);
       this.setState({stock: responseJson.balance});
     })
     .catch((error)=>{
@@ -72,7 +71,7 @@ export default class TransactionScreen extends React.Component {
   }
 
   validCreateTransaction=() => {
-    if(this.state.stock > this.state.amount){
+    if(this.state.stock < this.state.amount){
       this.createTransaction()
     }else{
       Alert.alert('You not enough stock');
@@ -80,13 +79,10 @@ export default class TransactionScreen extends React.Component {
   }
 
   componentDidMount(){
-    console.log('MOUNT FUNC');
     this.getAvailableStock();
   }
 
-  componentDidUpdate() {
-    console.log('Component did update');
-    
+  componentDidUpdate() {    
     this.props.navigation.addListener('focus', ()=>{
       this.getAvailableStock();
     })
@@ -136,7 +132,7 @@ export default class TransactionScreen extends React.Component {
             style={styles.button}
             onPress={this.validCreateTransaction()}
           >
-            <Text style={styles.btnText}>Create Transaction</Text>
+            <Text style={styles.btnText}>Send</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -186,7 +182,7 @@ var styles = StyleSheet.create({
     borderRadius: 6,
     width: '100%',
     backgroundColor: '#f1f2f5',
-    marginBottom: 16,
+    marginBottom: 5,
     paddingVertical: wp('2.25%'),
     paddingHorizontal: wp('2%'),
     fontSize: wp('4%'),

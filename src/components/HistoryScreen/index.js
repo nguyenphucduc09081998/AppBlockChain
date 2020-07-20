@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   Picker,
+  ListView,
   Alert,
   ActivityIndicator,
   TouchableOpacity,
@@ -22,37 +23,37 @@ export default class HistoryScreen extends Component {
   constructor() {
     super();
     this.state = {
-      dataSource: [],
-      //isLoading:true,
-      condition: 0
+      histories: [],
+      condition: "0",
     };
   }
 
   componentDidMount(){
-    console.log('MOUNT FUNC');
     this.getHistory();
   };
 
-  componentDidUpdate() {
-    console.log('update history');
-    
+  componentDidUpdate() {    
     this.props.navigation.addListener('focus', ()=>{
       this.getHistory();
     })
   }
+  setSelectedValue=(itemValue) =>{
+    this.state.condition = itemValue;
+    this.getHistory();
+  }
   getHistory=() => {
-    fetch( globalVariable.phpDomain + "/api/transaction-history?type=1", {
+    fetch( globalVariable.phpDomain + "/api/transaction-history?type=" + this.state.condition, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': globalVariable.Authorization
+        'Authorization': "Bearer " + globalVariable.Authorization
       }
     })
       .then((response) => response.json())
       .then((responseJson) => {    
-        Alert.alert('Get History Success')
-        console.log("responseJsonLogin:", responseJson);
+        this.state.histories = responseJson;
+        console.log('HISTORY', this.state.histories[0].amount);
       })
       .catch((error)=>{
         Alert.alert('Get History fail');
@@ -71,9 +72,10 @@ export default class HistoryScreen extends Component {
         <Picker
           selectedValue={this.state.condition}
           style={styles.filterBtn}
-          //onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          selectedValue={this.state.condition}
+          onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
         >
-          <Picker.Item  label="Receive" value="0" style={styles.filterText}/>
+          <Picker.Item label="Receive" value="0" style={styles.filterText}/>
           <Picker.Item label="Given" value="1" style={styles.filterText}/>
         </Picker>
       </View>
@@ -95,9 +97,9 @@ export default class HistoryScreen extends Component {
           </View>
           {/* Transaction content */}
           <View style={styles.viewitemheader}>
-            <Text style={styles.message}>{item.message}</Text>
-            <Text style={styles.public_key}>{item.public_key}</Text>
-            <Text style={styles.time}>{item.time}</Text>
+            <Text style={styles.message}>{item.email}</Text>
+            <Text style={styles.public_key}>{item.transaction}</Text>
+            {/* <Text style={styles.time}>{item.time}</Text> */}
           </View>
           {/* Amount */}
           <View style={styles.viewitembody}>
@@ -111,21 +113,15 @@ export default class HistoryScreen extends Component {
     );
   };
 
-  // renderSeparator = () => {
-  //     return (
-  //         <View style={styles.separator}></View>
-  //     )
-  // }
-
   render() {
     return (
       <View style={styles.HistoryComponent}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>LỊCH SỬ GIAO DỊCH</Text>
+          <Text style={styles.title}>TRANSACTION HISTORY</Text>
         </View>
         <View style={styles.listContainer}>
           <FlatList
-            data={DATA}
+            data={this.state.histories}
             renderItem={this.renderItem}
             keyExtractor={(item, index) => index}
             ItemSeparatorComponent={({highlighted}) => (

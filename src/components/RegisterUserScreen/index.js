@@ -59,6 +59,7 @@ export default class RegisterScreen extends Component {
       Alert.alert('The password confirmation does not match')
     }
   }
+  
 
   render() {
     return (
@@ -109,7 +110,6 @@ export default class RegisterScreen extends Component {
               />
             </View>
           </View>
-
           {/* <TouchableOpacity style={styles.button}>
                         <Text style={styles.btntext}>Sign Up</Text>
                     </TouchableOpacity> */}
@@ -123,12 +123,11 @@ export default class RegisterScreen extends Component {
 
           <View>
             <TouchableOpacity style={styles.button_account}
-              // onPress={() => Alert.alert('Cannot press this one')}
               onPress={() => this.props.navigation.navigate('LoginScreen')}
-
             >
-              <Text style={styles.btnText_account}>screen login</Text>
+              <Text style={styles.btnText_account}>Have an account? Login</Text>
             </TouchableOpacity>
+            
           </View>
 
         </View>
@@ -228,15 +227,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Rubik',
     // flex: 1
   },
-  button_account: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ff7a59',
-    borderRadius: 15,
-    height: 30,
-    width: 50,
-    fontFamily: 'Rubik',
-    marginTop: 15,
+  btnText_account: {
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    color: '#46596b',
+    // display: 'flex',
+    marginTop:5,
   },
 
   btnText: {
