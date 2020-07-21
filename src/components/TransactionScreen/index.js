@@ -24,8 +24,8 @@ export default class TransactionScreen extends React.Component {
     this.state = {
       date: '2016-05-15',
       stock: 0,
-      private_key: '426d4032eb945b3ae164273a073ea6159a0d9f3b34abc26c2379f27ce5cc31fc',
-      public_key: '30f13fbf1340d2df2afbbff7ba7120a23600949d680a468e37a0c2b49c7caba42d2c97f9bcc172122854152b45e6280a0d28211c56f6d2704ceeaa1f67de8906',
+      private_key: '',
+      public_key: '',
       amount: 0,
       message: null
     };
@@ -39,7 +39,7 @@ export default class TransactionScreen extends React.Component {
       this.setState({stock: responseJson.balance});
     })
     .catch((error)=>{
-      Alert.alert('Get stock fail');
+    //  Alert.alert('Get stock fail');
       console.log('ERROR', error);
     });
   }
@@ -74,7 +74,7 @@ export default class TransactionScreen extends React.Component {
     if(this.state.stock < this.state.amount){
       this.createTransaction()
     }else{
-      Alert.alert('You not enough stock');
+      //Alert.alert('You not enough stock');
     }
   }
 
@@ -105,15 +105,15 @@ export default class TransactionScreen extends React.Component {
             <View style={styles.form_input}>
               <View style={styles.form_group}>
                 <Text style={styles.left}> Your Private key</Text>
-                <TextInput style={[styles.Input]} value={this.state.private_key}/>
+                <TextInput style={[styles.Input]} onChangeText={(private_key) => this.setState({ private_key })} value={this.state.private_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Partner Public key</Text>
-                <TextInput style={styles.Input}  value={this.state.public_key}/>
+                <TextInput style={styles.Input} onChangeText={(public_key) => this.setState({ public_key })} value={this.state.public_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Amount</Text>
-                <TextInput style={styles.Input}  value={this.state.amount}/>
+                <TextInput style={styles.Input} onChangeText={(amount) => this.setState({ amount })} value={this.state.amount}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Message</Text>
@@ -121,7 +121,7 @@ export default class TransactionScreen extends React.Component {
                   multiline={true}
                   numberOfLines={4}
                   textAlignVertical="top"
-                  style={styles.Input}
+                  style={styles.Input} onChangeText={(message) => this.setState({ message })}
                   value={this.state.message}
                 />
               </View>
