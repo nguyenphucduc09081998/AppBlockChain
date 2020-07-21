@@ -24,7 +24,7 @@ export default class HistoryScreen extends Component {
     super();
     this.state = {
       histories: [],
-      condition: "0",
+      condition: 1,
     };
   }
 
@@ -52,8 +52,9 @@ export default class HistoryScreen extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {    
-        this.state.histories = responseJson;
-        console.log('HISTORY', this.state.histories[0].amount);
+        this.setState({ histories: responseJson });
+       // this.state.histories = responseJson;
+        // console.log('HISTORY', responseJson);
       })
       .catch((error)=>{
         Alert.alert('Get History fail');
