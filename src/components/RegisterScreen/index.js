@@ -26,7 +26,8 @@ export default class RegisterScreen extends Component {
   }
 
   getKey=()=>{
-    fetch( globalVariable.pythonDomain + "/register",{
+    console.log('USER ID', globalVariable.userInfo.id);
+    fetch( globalVariable.pythonDomain + "/register?user_id=" + globalVariable.userInfo.id,{
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -45,6 +46,24 @@ export default class RegisterScreen extends Component {
       Alert.alert('Register Fail')
       console.log('REGISTER FAIL', error);
     });
+  }
+
+  checkStatus(){
+    console.log('PUBLIC KEY', globalVariable.userInfo.public_key);
+    if(globalVariable.userInfo.public_key != null){
+      console.log('PK NULL')
+      Alert.alert('You Already Register private key');
+      this.setState({public_key: globalVariable.userInfo.public_key})
+    }else{
+      this.getKey();
+      console.log('PK NOT NULL');
+    }
+    // if(globalVariable.userInfo.public_key){
+    //   Alert.alert('You Already Register private key');
+    //   this.setState({public_key: globalVariable.userInfo.public_key})
+    // }else{
+    //   this.getKey();
+    // }
   }
 
   componentDidUpdate(){
@@ -76,7 +95,7 @@ export default class RegisterScreen extends Component {
                 textAlignVertical="top" 
                 value={this.state.private_key}
                 onChangeText={(private_key) => this.setState({ private_key })}
-                editable={false}  
+                //editable={false}  
                 style={styles.Input} />
             </View>
 
@@ -86,7 +105,7 @@ export default class RegisterScreen extends Component {
                 multiline={true}
                 numberOfLines={4}
                 textAlignVertical="top" 
-                editable={false}
+                //editable={false}
                 value={this.state.public_key} 
                 onChangeText={(public_key) => this.setState({ public_key })}
                 style={styles.Input} />
@@ -98,7 +117,7 @@ export default class RegisterScreen extends Component {
                     </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.button}
-            onPress={this.getKey.bind(this)}
+            onPress={this.checkStatus.bind(this)}
             disabled={this.state.isDisable}
           >
             <Text style={styles.btnText}>Get Private Key</Text>
