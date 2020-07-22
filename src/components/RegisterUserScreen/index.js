@@ -27,6 +27,8 @@ export default class RegisterScreen extends Component {
   }
   // password_confirmation
   doRegister = () => {
+    console.log('click do register');
+
     if (this.state.password == this.state.password_confirmation) {
       fetch(globalVariable.phpDomain + "/api/auth/register", {
         method: 'POST',
@@ -43,10 +45,10 @@ export default class RegisterScreen extends Component {
       })
         .then((response) => response.json())
         .then((responseJson) => {
+          console.log('responseJson', responseJson);
           if (responseJson.code == responseCode.HTTP_OK) {
             // Alert.alert('Register Success')
             this.props.navigation.navigate('LoginScreen')
-
           } else {
             Alert.alert('The email has already been taken')
           }
@@ -59,7 +61,7 @@ export default class RegisterScreen extends Component {
       Alert.alert('The password confirmation does not match')
     }
   }
-  
+
 
   render() {
     return (
@@ -127,7 +129,7 @@ export default class RegisterScreen extends Component {
             >
               <Text style={styles.btnText_account}>Have an account? Login</Text>
             </TouchableOpacity>
-            
+
           </View>
 
         </View>
@@ -166,12 +168,12 @@ const styles = StyleSheet.create({
     height: 50,
   },
   logoBlockTxt: {
-    fontFamily: 'Rubik-Medium',
+    fontFamily: 'Barlow-Medium',
     fontSize: 36,
     color: '#0091ae',
   },
   logoDotTxt: {
-    fontFamily: 'Rubik-Medium',
+    fontFamily: 'Barlow-Medium',
     fontSize: 36,
     color: '#ff7a59',
   },
@@ -192,12 +194,12 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: wp('5.5%'),
-    fontFamily: 'Rubik-Medium',
+    fontFamily: 'Barlow-Medium',
     color: '#000',
     // textAlign: 'center',
   },
   subHeader: {
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Barlow-Regular',
     color: '#8da1b4',
     fontSize: wp('3.75%'),
     marginBottom: wp('5.25%'),
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp('3%'),
     borderRadius: 28,
     height: 30,
-    fontFamily: 'Rubik',
+    fontFamily: 'Barlow',
     // flex: 1
   },
   btnText_account: {
@@ -232,13 +234,13 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     color: '#46596b',
     // display: 'flex',
-    marginTop:5,
+    marginTop: 5,
   },
 
   btnText: {
     color: '#fff',
     fontSize: wp('4%'),
-    fontFamily: 'Rubik-Medium',
+    fontFamily: 'Barlow-Medium',
   },
   Input: {
     borderRadius: 6,

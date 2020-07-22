@@ -21,6 +21,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import globalVariable from '../../../global/globalVariable';
+import responseCode from '../../../global/responseCode';
 
 import { withNavigation } from 'react-navigation';
 
@@ -37,11 +38,16 @@ class Profile extends React.Component {
             id: globalVariable.userInfo.id,
         }
     }
+
     doLogout = () => {
-        Alert.alert('Click Logout');
-        this.props.navigation.navigate('RegisterUserScreen')
+        globalVariable.Authorization = '';
+        globalVariable.userInfo = '';
+        console.log('click do Logout');
+        this.props.navigation.navigate('RegisterUserScreen');
     }
+
     doUpdate = () => {
+        console.log('click do Update');
         if (this.state.password == this.state.password_confirmation) {
             fetch(globalVariable.phpDomain + "/api/auth/UserUpdate", {
                 method: 'POST',
@@ -170,7 +176,7 @@ var styles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
-        fontFamily: 'Lora',
+        fontFamily: 'Barlow',
         fontSize: 15,
         fontWeight: 'bold',
     },
