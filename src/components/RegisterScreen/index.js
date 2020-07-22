@@ -21,15 +21,16 @@ export default class RegisterScreen extends Component {
     this.state ={
       public_key: "",
       private_key: "",
+      isDisable: false
     }
   }
 
   getKey=()=>{
     fetch( globalVariable.pythonDomain + "/register",{
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       }
     })
     .then((response) => response.json())
@@ -44,6 +45,15 @@ export default class RegisterScreen extends Component {
       Alert.alert('Register Fail')
       console.log('REGISTER FAIL', error);
     });
+  }
+
+  componentDidUpdate(){
+    this.props.navigation.addListener('focus', ()=>{
+      console.log('USER INFO', globalVariable.userInfo);
+      this.setState({public_key: globalVariable.userInfo.public_key});
+      if(this.state.public_key) this.setState({isDisable: true});
+    })
+   
   }
   //-----------END WRITE FUNCTION----------------
 
@@ -65,6 +75,7 @@ export default class RegisterScreen extends Component {
                 numberOfLines={4}
                 textAlignVertical="top" 
                 value={this.state.private_key}
+                onChangeText={(private_key) => this.setState({ private_key })}
                 editable={false}  
                 style={styles.Input} />
             </View>
@@ -77,6 +88,7 @@ export default class RegisterScreen extends Component {
                 textAlignVertical="top" 
                 editable={false}
                 value={this.state.public_key} 
+                onChangeText={(public_key) => this.setState({ public_key })}
                 style={styles.Input} />
             </View>
           </View>
@@ -87,6 +99,7 @@ export default class RegisterScreen extends Component {
           <TouchableOpacity
             style={styles.button}
             onPress={this.getKey.bind(this)}
+            disabled={this.state.isDisable}
           >
             <Text style={styles.btnText}>Get Private Key</Text>
           </TouchableOpacity>
