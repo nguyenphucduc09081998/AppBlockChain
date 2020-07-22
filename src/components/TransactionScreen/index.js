@@ -25,7 +25,8 @@ export default class TransactionScreen extends React.Component {
       date: '2016-05-15',
       stock: 0,
       private_key: '426d4032eb945b3ae164273a073ea6159a0d9f3b34abc26c2379f27ce5cc31fc',
-      public_key: '45349a48fc30078dc98e226a0bc50b6f814eec2c3cb479ac40c758dd5d6fac68c0f543d53e93dabeed8f7b517424f9514183eb13466f87a24ac872080c1f6f01',
+      public_key: '',
+      //public_key:  45349a48fc30078dc98e226a0bc50b6f814eec2c3cb479ac40c758dd5d6fac68c0f543d53e93dabeed8f7b517424f9514183eb13466f87a24ac872080c1f6f01
       amount: 0,
       message: null
     };

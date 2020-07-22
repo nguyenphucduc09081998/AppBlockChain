@@ -18,13 +18,14 @@ import {
 } from 'react-native-responsive-screen';
 import globalVariable from '../../../global/globalVariable';
 import responseCode from '../../../global/responseCode';
+import { block } from 'react-native-reanimated';
 
 export default class HistoryScreen extends Component {
   constructor() {
     super();
     this.state = {
       histories: [],
-      condition: 1,
+      condition: 0,
     };
   }
 
@@ -53,8 +54,7 @@ export default class HistoryScreen extends Component {
       .then((response) => response.json())
       .then((responseJson) => {    
         this.setState({ histories: responseJson });
-       // this.state.histories = responseJson;
-        // console.log('HISTORY', responseJson);
+        console.log('HISTORY', this.state.histories);
       })
       .catch((error)=>{
         Alert.alert('Get History fail');
@@ -64,12 +64,6 @@ export default class HistoryScreen extends Component {
   renderFilter = () => {
     return (
       <View style={styles.filterConainter}>
-        {/* <TouchableOpacity>
-          <View style={styles.filterBtn}>
-            <Text style={styles.filterText}>Filter</Text>
-            <Icon name="caretdown" size={wp('2%')} color="#0091ae" />
-          </View>
-        </TouchableOpacity> */}
         <Picker
           selectedValue={this.state.condition}
           style={styles.filterBtn}
@@ -83,7 +77,9 @@ export default class HistoryScreen extends Component {
     );
   };
 
-  renderItem = ({item, index}) => {
+
+
+  renderItem = ({item}) => {
     return (
       <View style={styles.transactionItemContainer}>
         <View style={styles.viewitem}>
@@ -100,7 +96,7 @@ export default class HistoryScreen extends Component {
           <View style={styles.viewitemheader}>
             <Text style={styles.message}>{item.email}</Text>
             <Text style={styles.public_key}>{item.transaction}</Text>
-            {/* <Text style={styles.time}>{item.time}</Text> */}
+            <Text style={styles.time}>{item.timestamp}</Text>
           </View>
           {/* Amount */}
           <View style={styles.viewitembody}>
@@ -115,22 +111,56 @@ export default class HistoryScreen extends Component {
   };
 
   render() {
+    const noRecord =(
+      <View>
+        <Picker
+          selectedValue={this.state.condition}
+          style={styles.filterBtn}
+          selectedValue={this.state.condition}
+          onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+        >
+          <Picker.Item label="Receive" value="0" style={styles.filterText}/>
+          <Picker.Item label="Given" value="1" style={styles.filterText}/>
+        </Picker>
+
+        <Text style={{
+          fontSize: 20, 
+          fontWeight:'400',
+          alignItems:'center',
+          position: "absolute",
+          justifyContent:'center',
+          paddingTop:175,
+          marginLeft: 75,
+          fontFamily: 'Rubik-Medium',
+          marginBottom: 4,
+          color: '#696969',
+        }}
+        ListHeaderComponent={this.renderFilter}
+        >
+          No Data can be found
+        </Text>
+      </View>
+    );
+    const  historyList = (
+      <FlatList
+        data={this.state.histories}
+        renderItem={this.renderItem}
+        keyExtractor={(item, index) => index}
+        ItemSeparatorComponent={({highlighted}) => (
+          <View style={styles.separator} />
+        )}
+        ListHeaderComponent={this.renderFilter}
+        //ItemSeparatorComponent={this.renderSeparator}
+      />
+    );
+    const renderHistory = (this.state.histories.length) ? historyList : noRecord;
     return (
       <View style={styles.HistoryComponent}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>TRANSACTION HISTORY</Text>
         </View>
         <View style={styles.listContainer}>
-          <FlatList
-            data={this.state.histories}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => index}
-            ItemSeparatorComponent={({highlighted}) => (
-              <View style={styles.separator} />
-            )}
-            ListHeaderComponent={this.renderFilter}
-            //ItemSeparatorComponent={this.renderSeparator}
-          />
+          {renderHistory}
         </View>
       </View>
     );

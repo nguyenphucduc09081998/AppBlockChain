@@ -106,8 +106,9 @@ export default class RegisterScreen extends Component {
                 numberOfLines={4}
                 textAlignVertical="top" 
                 //editable={false}
-                value={this.state.public_key} 
                 onChangeText={(public_key) => this.setState({ public_key })}
+                value={this.state.public_key} 
+                
                 style={styles.Input} />
             </View>
           </View>
