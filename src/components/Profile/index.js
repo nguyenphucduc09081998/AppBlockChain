@@ -22,6 +22,9 @@ import {
 } from 'react-native-responsive-screen';
 import globalVariable from '../../../global/globalVariable';
 import responseCode from '../../../global/responseCode';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { BottomTabs } from '../index';
 
 import { withNavigation } from 'react-navigation';
 
@@ -31,19 +34,27 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             name: globalVariable.userInfo.name,
+            Name_TITLE: globalVariable.userInfo.name,
             email: globalVariable.userInfo.email,
-            phone: globalVariable.userInfo.phone,
+            // phone: globalVariable.userInfo.phone,
             password: "",
             password_confirmation: "",
             id: globalVariable.userInfo.id,
         }
     }
 
+    componentDidUpdate() {
+        console.log('screen logout componentDidUpdate');
+        // this.props.navigation.addListener('focus', () => {
+        //     this.getHistory();
+        // })
+    }
+
     doLogout = () => {
         globalVariable.Authorization = '';
         globalVariable.userInfo = '';
         console.log('click do Logout');
-        this.props.navigation.navigate('RegisterUserScreen');
+        this.props.navigation.navigate('LoginScreen');
     }
 
     doUpdate = () => {
@@ -63,22 +74,28 @@ class Profile extends React.Component {
                     "id": this.state.id
                 })
             })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log('responseJson', responseJson);
-                if (responseJson.code == responseCode.HTTP_OK) {
-                    globalVariable.userInfo = responseJson.data.user;
-                    this.props.navigation.navigate('BottomTabs');
-                    Alert.alert('Update User successfully');
-                } else {
-                    Alert.alert('The email has already been taken');
-                }
-                //AsyncStorage.setItem("@public_key", responseJson.data.user.public_key);
-            })
-            .catch((error) => {
-                Alert.alert('Update Fail');
-            });
-        }else{
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    console.log('responseJson', responseJson);
+                    if (responseJson.code == responseCode.HTTP_OK) {
+                        globalVariable.userInfo = responseJson.data.user;
+                        // this.props.navigation.navigate('BottomTabs');
+                        Alert.alert('Update User successfully');
+                        this.setState({ Name_TITLE: this.state.name });
+                        this.setState({ name: this.state.name });
+                        this.setState({ email: this.state.email });
+
+                    } else if(responseJson.code == 412){
+                        Alert.alert('Email ton tai');
+                    }else {
+                        Alert.alert('The email has already been taken');
+                    }
+                    //AsyncStorage.setItem("@public_key", responseJson.data.user.public_key);
+                })
+                .catch((error) => {
+                    Alert.alert('Update Fail');
+                });
+        } else {
             Alert.alert('The password confirmation does not match')
         }
     }
@@ -90,7 +107,7 @@ class Profile extends React.Component {
                     <View style={styles.avt_gr}>
                         <View style={[styles.col_md_4]}>
                             <Image source={require('../../../img/man.png')} style={{ marginLeft: 5 }} />
-                            <Text>{this.state.name}</Text>
+                            <Text>{this.state.Name_TITLE}</Text>
                         </View>
                     </View>
                     <View style={styles.input_profile}>
@@ -104,11 +121,11 @@ class Profile extends React.Component {
                                 <TextInput style={[styles.Input]} onChangeText={(name) => this.setState({ name })}
                                     value={this.state.name} />
                             </View>
-                            <View style={styles.form_group}>
+                            {/* <View style={styles.form_group}>
                                 <Text>Phone Number</Text>
                                 <TextInput style={styles.Input} onChangeText={(phone) => this.setState({ phone })}
                                     value={this.state.phone} />
-                            </View>
+                            </View> */}
                             <View style={styles.form_group}>
                                 <Text>Email</Text>
                                 <TextInput style={styles.Input} onChangeText={(email) => this.setState({ email })}
@@ -117,12 +134,12 @@ class Profile extends React.Component {
                             <View style={styles.form_group}>
                                 <Text>Password</Text>
                                 <TextInput style={styles.Input} secureTextEntry onChangeText={(password) => this.setState({ password })}
-                                    />
+                                />
                             </View>
                             <View style={styles.form_group}>
                                 <Text>Confirm Password</Text>
                                 <TextInput style={styles.Input} secureTextEntry onChangeText={(password_confirmation) => this.setState({ password_confirmation })}
-                                    />
+                                />
                             </View>
                         </View>
                     </View>
@@ -145,6 +162,29 @@ class Profile extends React.Component {
         )
     }
 }
+
+
+// const Profile = () => (
+//     <NavigationContainer independent={true}>
+//       <StackNavigations />
+//     </NavigationContainer>  
+//   );
+//   const Stack = createStackNavigator();
+//   const StackNavigations = () => (
+//     <Stack.Navigator initialRouteName="Profile" screenOptions={{
+//       headerShown: false
+//     }}>
+//         <Stack.Screen name="BottomTabs" component={BottomTabs} />
+//         <Stack.Screen name="Profile" component={Profile123} />
+//         {/* <Stack.Screen name="RegisterUserScreen" component={RegisterUserScreen} /> */}
+//     </Stack.Navigator>
+//   );
+
+export default withNavigation(Profile);
+
+
+
+
 var styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -185,15 +225,6 @@ var styles = StyleSheet.create({
         fontSize: 11
     },
     button: {
-        // alignItems: 'center',
-        // backgroundColor: '#0382F8',
-        // marginTop: 10,
-        // padding: 5,
-        // width: '100%',
-        // width: 150,
-        // height: 30,
-        // left: 23,
-        // borderRadius: 14
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ff7a59',
@@ -219,12 +250,6 @@ var styles = StyleSheet.create({
         fontFamily: 'Rubik-Medium',
     },
     Input: {
-        // borderColor: '#CCC9C9',
-        // borderWidth: 0.5,
-        // borderRadius: 10,
-        // width: '100%',
-
-        ///
         borderRadius: 6,
         width: '100%',
         backgroundColor: '#f1f2f5',
@@ -233,7 +258,6 @@ var styles = StyleSheet.create({
         paddingHorizontal: wp('2%'),
         fontSize: wp('4%'),
         fontFamily: 'Inconsolata-Regular',
-        ///
     },
     form_group: {
         flexWrap: 'wrap',
@@ -251,97 +275,5 @@ var styles = StyleSheet.create({
 
     },
 })
-export default withNavigation(Profile);
 
 //////////////////////
-// import React from 'react';
-// import {
-//     Text,
-//     View,
-//     StyleSheet,
-//     StatusBar,
-//     ListView,
-//     ScrollView,
-//     TouchableOpacity,
-//     Alert,
-//     Image,
-//     TextInput,
-//     Group,
-//     TouchableHighlight,
-//     Button,
-//   } from 'react-native';
-//   import {withNavigation} from 'react-navigation';
-// export default class Profile extends React.Component {
-//     constructor(props) {
-//       super(props);
-//     }
-
-//     render() {
-//         return (
-//             <View>
-//                 <Text>this is stripe profile</Text>
-//             </View>
-//         );
-//     }
-// };
-
-{/* <View style={styles.form_group}>
-                                <Text style={{marginTop: '2%'}}>Ngày sinh: </Text>
-                                <DatePicker
-                                    style={styles.datePicker}
-                                    date={this.state.date}
-                                    mode="date"
-                                    placeholder="select date"
-                                    format="DD-MM-YYYY"
-                                    minDate="01-05-2016"
-                                    maxDate="01-05-2030"
-                                    confirmBtnText="Confirm"
-                                    cancelBtnText="Cancel"
-                                    customStyles={{
-                                    dateIcon: {
-                                        position: 'absolute',
-                                        left: -2,
-                                        top: 9,
-                                        marginLeft: 10,
-                                        width: '10%',
-                                        height: '55%',
-                                    },
-                                    dateInput: {
-                                        paddingLeft: 10,
-                                        borderWidth: 1,
-                                        borderColor: '#C6C6C6',
-                                        height: 34,
-                                        borderRadius: 7, 
-                                    },
-                        
-                                    // ... You can check the source to find the other keys.
-                                    }}
-                                    onDateChange={(date) => {this.setState({date: date})}}
-                                />
-                            </View>       */}
-
-{/* <View style={styles.input_address}>
-                        <Text style={[styles.title_profile, styles.title]}>Thông tin địa chỉ</Text>
-                        <View style={styles.form_input}>
-                            <View style={styles.form_group}>
-                                <Text style={styles.left}> Tên công ty</Text>
-                                <TextInput style={[styles.Input]}/>
-                            </View>
-                            <View style={styles.form_group}>
-                                <Text style={styles.left}> Địa chỉ</Text>
-                                <TextInput style={[styles.Input]}/>
-                            </View>
-                            <View style={styles.form_group}>
-                                <Text style={styles.left}>Mã Zip: </Text>
-                                <TextInput style={[styles.Input]}/>
-                            </View>
-                            <View style={styles.form_group}>
-                                <Text style={styles.left}>Quốc gia: </Text>
-                                <TextInput style={[styles.Input]}/>
-                            </View>
-                            <View style={styles.form_group}>
-                                <Text style={styles.left}>Thành phố: </Text>
-                                <TextInput style={[styles.Input]}/>
-                            </View>
-                        </View>
-                    </View> */}

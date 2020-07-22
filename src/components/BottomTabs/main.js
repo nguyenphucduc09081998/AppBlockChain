@@ -101,24 +101,40 @@ const BottomTabs_New = () => {
   );
 };
 
-const Stack = createStackNavigator();
 
+const Stack = createStackNavigator();
 const StackNavigations = () => (
-  <Stack.Navigator initialRouteName="Transactions" screenOptions={{
-    headerShown: false
-  }}>
+  <Stack.Navigator initialRouteName="Transactions" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Transactions" component={TransactionScreen} />
       <Stack.Screen name="PaymentView" component={PaymentView} />
   </Stack.Navigator>
 );
 
+const ProfileStackNavigations = () => (
+  <Stack.Navigator initialRouteName="Profile" screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="BottomTabs" component={BottomTabs_New} />
+  </Stack.Navigator>
+);
+
 const WrappedBottomTabs = () => (
   <NavigationContainer independent={true}>
-    <BottomTabs_New />
+    <StackNavigations123 />
   </NavigationContainer>
 );
 
+const StackNavigations123 = () => (
+  <Stack.Navigator initialRouteName="BottomTabs" screenOptions={{
+    headerShown: false
+  }}>
+      <Stack.Screen name="BottomTabs" component={BottomTabs_New} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      {/* <Stack.Screen name="RegisterUserScreen" component={RegisterUserScreen} /> */}
+  </Stack.Navigator>
+);
+
 export default WrappedBottomTabs;
+
 
 const styles = StyleSheet.create({
   imgSuggest: {

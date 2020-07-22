@@ -19,13 +19,7 @@ import TransactionScreen from './src/components/TransactionScreen';// navigation
 import PaymentView from './src/components/TransactionScreen/PaymentView';// navigation OK
 import HistoryScreen from './src/components/HistoryScreen';// navigation OK
 import ProjectDetail from './src/components/ProjectDetail';// navigation OK
-// const App = createStackNavigator({
-//   RegisterScreen: { screen: RegisterScreen},
-//   BottomTabs: {screen: BottomTabs},
-//   // RegisterUserScreen:{screen: RegisterUserScreen},
-// },{
-//   initialRouteName: 'RegisterScreen'
-// });
+
 const App = () => (
   <NavigationContainer>
     <StackNavigations />
@@ -42,24 +36,4 @@ const StackNavigations = () => (
   </Stack.Navigator>
 );
 
-
-// const Stack = createStackNavigator();
-
-// const StackNavigations = () => (
-//   <Stack.Navigator initialRouteName="Transactions" screenOptions={{
-//     headerShown: false
-//   }}>
-//       <Stack.Screen name="Transactions" component={TransactionScreen} />
-//       <Stack.Screen name="PaymentView" component={PaymentView} />
-//   </Stack.Navigator>
-// );
-
-/// dung
-// const App: () => React$Node = () => {
-//   return (
-//     <>
-//     <BottomTabs></BottomTabs>
-//     </>
-//   );
-// };
 export default App;
