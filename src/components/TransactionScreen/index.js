@@ -24,8 +24,8 @@ export default class TransactionScreen extends React.Component {
     this.state = {
       date: '2016-05-15',
       stock: 0,
-      private_key: '',
-      public_key: '',
+      private_key: '426d4032eb945b3ae164273a073ea6159a0d9f3b34abc26c2379f27ce5cc31fc',
+      public_key: '45349a48fc30078dc98e226a0bc50b6f814eec2c3cb479ac40c758dd5d6fac68c0f543d53e93dabeed8f7b517424f9514183eb13466f87a24ac872080c1f6f01',
       amount: 0,
       message: null
     };
@@ -35,7 +35,6 @@ export default class TransactionScreen extends React.Component {
     fetch( globalVariable.pythonDomain + "/balance?public_key=" + publicKey)
     .then((response) => response.json())
     .then((responseJson) => {    
-      Alert.alert('Get stock success')
       this.setState({stock: responseJson.balance});
     })
     .catch((error)=>{
@@ -45,21 +44,23 @@ export default class TransactionScreen extends React.Component {
   }
 
   createTransaction=() => {   
-    let formData = new FormData();
-    formData.append("private_key", this.state.private_key);
-    formData.append("public_ley", this.state.public_key);
-    formData.append("msg", this.state.message);
-    formData.append("amount", this.state.amount);
+    console.log('GO TO CREATE');
     fetch( globalVariable.pythonDomain + "/transaction/create",{
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: formData
+      body: JSON.stringify({
+        "private_key": this.state.private_key,
+        "public_key": this.state.public_key,
+        "msg": this.state.message,
+        "amount": this.state.amount
+    })
     })
     .then((response) => response.json())
       .then((responseJson) => {    
+        console.log('RESPONSE CREATE', responseJson);
         if(responseJson.code == responseCode.HTTP_OK){
           Alert.alert('Create transaction Success')
         }
@@ -71,10 +72,11 @@ export default class TransactionScreen extends React.Component {
   }
 
   validCreateTransaction=() => {
-    if(this.state.stock < this.state.amount){
+    console.log('VALIDATE CREATE TRANSACTION');
+    if(this.state.stock > this.state.amount){      
       this.createTransaction()
     }else{
-      //Alert.alert('You not enough stock');
+      Alert.alert('You not enough stock');
     }
   }
 
@@ -105,15 +107,24 @@ export default class TransactionScreen extends React.Component {
             <View style={styles.form_input}>
               <View style={styles.form_group}>
                 <Text style={styles.left}> Your Private key</Text>
-                <TextInput style={[styles.Input]} onChangeText={(private_key) => this.setState({ private_key })} value={this.state.private_key}/>
+                <TextInput 
+                  style={[styles.Input]} 
+                  onChangeText={(private_key) => this.setState({ private_key })} 
+                  value={this.state.private_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Partner Public key</Text>
-                <TextInput style={styles.Input} onChangeText={(public_key) => this.setState({ public_key })} value={this.state.public_key}/>
+                <TextInput 
+                  style={styles.Input} 
+                  onChangeText={(public_key) => this.setState({ public_key })} 
+                  value={this.state.public_key}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Amount</Text>
-                <TextInput style={styles.Input} onChangeText={(amount) => this.setState({ amount })} value={this.state.amount}/>
+                <TextInput 
+                  style={styles.Input} 
+                  onChangeText={(amount) => this.setState({ amount })} 
+                  value={this.state.amount}/>
               </View>
               <View style={styles.form_group}>
                 <Text style={styles.left}>Message</Text>
@@ -130,7 +141,9 @@ export default class TransactionScreen extends React.Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={this.validCreateTransaction()}
+            // onPress={this.validCreateTransaction()}
+            onPress={this.validCreateTransaction.bind(this)}
+
           >
             <Text style={styles.btnText}>Send</Text>
           </TouchableOpacity>
